@@ -36,6 +36,7 @@ public class TestController {
         StpUtil.logoutByLoginId(10001);
         return "SUCCESS";
     }
+    //123
 
 
     @ApiOperation("登陆后校验，能返回证明登陆成功")
