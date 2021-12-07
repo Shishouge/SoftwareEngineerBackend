@@ -10,10 +10,15 @@
           AND PASSWORD=#{password}
     </select>
 
-    <select id="getByUserEmail" resultType="com.example.backend.Entity.Account.IndividualUser">
+    <select id="getByEmail" resultType="com.example.backend.Entity.Account.IndividualUser">
         SELECT *
         FROM user
         WHERE USER_EMAIL=#{ID}
     </select>
+
+    <insert id="insertUser">
+        insert into user (ID, USER_NAME, PASSWORD)
+        values (#{ID},#{userName},#{password});
+    </insert>
 
 </mapper>

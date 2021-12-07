@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface IndividualUserMapper {
     //通过邮箱和密码判断信息是否匹配
     IndividualUser getByUserEmailAndPassword(String ID, String password);
-    IndividualUser getByUserEmail(String ID);
+    IndividualUser getByEmail(String ID);
+    int insertUser(String ID,String password,String userName);
 
 }
