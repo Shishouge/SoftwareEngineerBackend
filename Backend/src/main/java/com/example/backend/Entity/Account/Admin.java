@@ -1,7 +1,10 @@
 package com.example.backend.Entity.Account;
 
 public class Admin extends User{
-    public Admin(String ID, String USER_NAME, String AVATOR) {
-        super(ID, USER_NAME, AVATOR);
+    private int ID;
+    public Admin(String USERNAME, String AVATOR) {
+        super(USERNAME, AVATOR);
+        this.ID=ID;
     }
+
 }

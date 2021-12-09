@@ -20,19 +20,19 @@ public class TokenUtil{
      * @param user
      * @return
      */
-    public String generateToken(User user) {
-        Date start = new Date();
-        long currentTime = System.currentTimeMillis() + 60* 60*24*7 * 1000;//七天有效时间
-        Date end = new Date(currentTime);
-        String token = "";
-        token = JWT.create()
-                .withAudience(user.getID().toString())
-                .withAudience(user.getUSER_NAME())
-                .withIssuedAt(start)
-                .withExpiresAt(end)
-                .sign(Algorithm.HMAC256(user.getPASSWORD()));
-        return token;
-    }
+//    public String generateToken(User user) {
+//        Date start = new Date();
+//        long currentTime = System.currentTimeMillis() + 60* 60*24*7 * 1000;//七天有效时间
+//        Date end = new Date(currentTime);
+//        String token = "";
+//        token = JWT.create()
+//                .withAudience(user.getID().toString())
+//                .withAudience(user.getUSER_NAME())
+//                .withIssuedAt(start)
+//                .withExpiresAt(end)
+//                .sign(Algorithm.HMAC256(user.getPASSWORD()));
+//        return token;
+//    }
 
 
     /**

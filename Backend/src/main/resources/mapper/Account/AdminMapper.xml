@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.DAO.Account.AdminMapper">
+    <select id="getByIDandPassword" resultType="com.example.backend.Entity.Account.Admin">
+        select ID,USERNAME,AVATOR
+        from admin
+        where ID=#{ID}
+        and PASSWORD=#{password};
+    </select>
+
+    <select id="getReports" resultType="com.example.backend.Entity.Discuss.Report">
+        select *
+        from report
+    </select>
+
+    <update id="updateIUserStatus">
+        update individual_user
+        set STATUS=#{flag}
+        where ID=#{ID};
+    </update>
+
+    <select id="getApplications" resultType="com.example.backend.Entity.Account.Application">
+        select *
+        from application
+    </select>
+
+    <update id="updateOUserStatus">
+        update organization
+        set STATUS=#{flag}
+        where ID=#{ID};
+    </update>
+
+</mapper>

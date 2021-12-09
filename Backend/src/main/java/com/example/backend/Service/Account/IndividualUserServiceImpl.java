@@ -3,6 +3,8 @@ package com.example.backend.Service.Account;
 import com.example.backend.DAO.Account.IndividualUserMapper;
 import com.example.backend.Entity.Account.IndividualUser;
 import com.example.backend.Entity.Account.User;
+import com.example.backend.Entity.Activity.Activity;
+import com.example.backend.Entity.Discuss.Question;
 import com.example.backend.Util.Token.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import javax.mail.internet.MimeMessage;
 
+import java.util.List;
 import  java.util.Properties;
 import  org.springframework.mail.SimpleMailMessage;
 import  org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -29,28 +32,30 @@ public class IndividualUserServiceImpl implements IndividualUserService{
     @Override
     public IndividualUser loginByEmail(String ID,String password)
     {
-        IndividualUser individualUser= individualUserMapper.getByUserEmailAndPassword("2872529770@qq.com","111");
+        IndividualUser individualUser= individualUserMapper.getByUserEmailAndPassword(ID, password);
         if(individualUser==null)
             return null;
         return individualUser;
     }
 
     @Override
-    public boolean getByEmail(String email)
+    public IndividualUser getByEmail(String email)
     {
         IndividualUser individualUser=individualUserMapper.getByEmail(email);
-        if(individualUser==null)
-            return false;
-        else
-            return true;
+        return individualUser;
     }
 
     @Override
     public int insertUser(String email,String password,String userName)
     {
-        return individualUserMapper.insertUser(email,password,userName);
+        return individualUserMapper.insertUser(email,password,userName,1);
     }
 
+    @Override
+    public int editInformation(String email,String password,String userName,String introduction,String avator)
+    {
+        return individualUserMapper.editInformation(email,userName,password,introduction,avator);
+    }
 //    @Override
 //    public String loginCheck(String ID,String password, HttpServletResponse response) {
 //        User user2 = individualUserMapper.getByUserEmail(ID);
@@ -85,4 +90,30 @@ public class IndividualUserServiceImpl implements IndividualUserService{
         }
     }
 
+    @Override
+    public List<Question> getMyQuestions(String ID)
+    {
+        List<Question> questions=individualUserMapper.getMyQuestions(ID);
+        return questions;
+    }
+
+    @Override
+    public List<Question> getMyFocusQuestion(String ID)
+    {
+        List<Question> questionList=individualUserMapper.getMyFocusQuestions(ID);
+        return questionList;
+    }
+
+    @Override
+    public List<Activity> getMyActivities(String ID)
+    {
+        List<Activity> activities=individualUserMapper.getMySignUpActivities(ID);
+        return activities;
+    }
+
+    @Override
+    public int reportUser(String wID,String rID,String reason)
+    {
+        return individualUserMapper.reportUser(wID, rID, reason);
+    }
 }

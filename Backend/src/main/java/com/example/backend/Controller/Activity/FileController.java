@@ -17,10 +17,6 @@ public class FileController {
     @ApiOperation("上传文件到服务器上")
     @PostMapping("addFile")
     public Object addFile(int uploadID,int courseID,String addPath,@RequestParam("myFile") MultipartFile multipartFile) throws IOException {
-
-
-
-
             //调用自定义的FTP工具类上传文件
             String fileName = FtpUtil.uploadFile(addPath, multipartFile);
             //
