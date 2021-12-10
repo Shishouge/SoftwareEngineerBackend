@@ -40,4 +40,18 @@ public class DiscussController {
     {
         return discussService.getAllAnswerByQuestionId(questionId);
     }
+
+    @ApiOperation("查看是否关注该问题")
+    @GetMapping("checkFocusQuestion")
+    public  AjaxJson checkFocusQuestion(String userId,int questionId)
+    {
+        return discussService.checkFocusQuestion(userId,questionId);
+    }
+
+    @ApiOperation("对关注问题取反")
+    @PostMapping("takeAntiFocusQuestion")
+    public  AjaxJson takeAntiFocusQuestion(String userId,int questionId)
+    {
+        return discussService.takeAntiFocusQuestion(userId,questionId);
+    }
 }

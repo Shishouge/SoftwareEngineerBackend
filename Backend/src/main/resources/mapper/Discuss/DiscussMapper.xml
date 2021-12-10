@@ -17,6 +17,31 @@
         from question
     </select>
 
+    <select id="checkFocusQuestion" resultType="com.example.backend.Entity.Discuss.QuestionWithFollowNumAndLikeNum">
+        select ID,TITLE,CONTENT,FOLLOW_NUM,ANSWER_NUM
+        from question,focus_question
+        where question.ID = focus_question.QUESTION_ID and focus_question.INDIVIDUAL_USER_ID = #{userId} and question.ID= #{questionId}
+    </select>
+
+    
+<!--    <select id="test" resultType="com.example.backend.Entity.Activity.Activity">-->
+<!--        select ID,INTRODUCTION-->
+<!--        from question,focus_question-->
+<!--        where question.ID = focus_question.QUESTION_ID and focus_question.INDIVIDUAL_USER_ID = #{userId} and question.ID= #{questionId}-->
+<!--    </select>-->
+
+    <insert id="addFocusQuestion">
+        insert into focus_question (INDIVIDUAL_USER_ID, QUESTION_ID)
+        values (#{userId},#{questionId});
+    </insert>
+
+    <insert id="deleteFocusQuestion">
+        delete from focus_question
+        where INDIVIDUAL_USER_ID = #{userId} and QUESTION_ID = #{questionId}
+    </insert>
+
+
+
     <resultMap id="MapQuestionWithFollowNumAndLikeNumAndAvatar" type="com.example.backend.Entity.Discuss.QuestionWithFollowNumAndLikeNumAndAvatar">
         <result column="ID" jdbcType="INTEGER" property="id" />
         <result column="TITLE" jdbcType="VARCHAR" property="title" />
@@ -50,5 +75,6 @@
         from answer ,individual_user
         where answer.INDIVIDUAL_USER_ID = individual_user.ID and answer.QUESTION_ID = #{questionId}
     </select>
+
 
 </mapper>
