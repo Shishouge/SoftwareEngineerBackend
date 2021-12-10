@@ -66,6 +66,12 @@ public class AjaxJson implements Serializable {
         this.dataCount = dataCount;
     }
 
+    public AjaxJson(int code, String msg, Object data) {
+        this.code = code;
+        this.msg = msg;
+        this.result = data;
+    }
+
     // 返回成功
     public static AjaxJson getSuccess() {
         return new AjaxJson(CODE_SUCCESS, "ok", null, null);

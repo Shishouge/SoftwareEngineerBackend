@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,13 @@ public class AdminController {
             return new AjaxJson(500,"不存在该账号",null, 0L);
         else
             return new AjaxJson(200,"登录成功",admin, 1L);
+    }
+
+    @ApiOperation("获得管理员的信息")
+    @PostMapping("/getDetailInformation")
+    public Admin getDetailInformation(int id ,String password)
+    {
+        return adminService.login(id, password);
     }
 
 
