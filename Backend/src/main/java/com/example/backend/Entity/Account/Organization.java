@@ -1,14 +1,19 @@
 package com.example.backend.Entity.Account;
 
-public class Organization extends User{
-    private String INTRODUCTION;
-    private int STATUS;
+public class Organization{
     private int ID;
+    private String USERNAME;
+    private String INTRODUCTION;
+    private String AVATOR;
+    private int STATUS;
 
-    public Organization(int ID,String USER_NAME, String AVATOR, String INTRODUCTION) {
-        super(USER_NAME,AVATOR);
-        this.ID=ID;
+
+    public Organization(int ID, String USERNAME, String INTRODUCTION, String AVATOR, int STATUS) {
+        this.ID = ID;
+        this.USERNAME = USERNAME;
         this.INTRODUCTION = INTRODUCTION;
+        this.AVATOR = AVATOR;
+        this.STATUS = STATUS;
     }
 
     public String getINTRODUCTION() {
@@ -25,5 +30,29 @@ public class Organization extends User{
 
     public void setSTATUS(int STATUS) {
         this.STATUS = STATUS;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public String getUSERNAME() {
+        return USERNAME;
+    }
+
+    public void setUSERNAME(String USERNAME) {
+        this.USERNAME = USERNAME;
+    }
+
+    public String getAVATOR() {
+        return AVATOR;
+    }
+
+    public void setAVATOR(String AVATOR) {
+        this.AVATOR = AVATOR;
     }
 }

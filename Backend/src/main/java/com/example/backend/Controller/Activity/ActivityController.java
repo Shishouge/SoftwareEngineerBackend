@@ -7,8 +7,6 @@ import com.example.backend.Entity.Activity.ActivityHelper;
 import com.example.backend.Entity.Activity.ReviewActivity;
 import com.example.backend.Service.Activity.ActivityService;
 import com.example.backend.Util.Response.AjaxJson;
-import com.example.backend.Util.Response.ResponseCode;
-import com.example.backend.Util.Response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -38,7 +36,7 @@ public class ActivityController {
         for(int i=0;i<activities.size();i++)
         {
             Activity a=activities.get(i);
-            ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getAvator(),a.getOrganizerIntro()));
+            ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getActivityIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getOrganizerIntro(),a.getAvator(),a.getOrganizerStatus()));
             helpers.add(helper);
         }
         if(activities.size()==0)
@@ -52,7 +50,7 @@ public class ActivityController {
     public AjaxJson getActivityDetail(int ID)
     {
         Activity a=activityMapper.getLikeNum(ID);
-        ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getAvator(),a.getOrganizerIntro()));
+        ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getActivityIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getOrganizerIntro(),a.getAvator(),a.getOrganizerStatus()));
         if(a==null)
             return new AjaxJson(500,"数据库不存在该信息",null,0L);
         else
@@ -195,13 +193,57 @@ public class ActivityController {
         for(int i=0;i<activities.size();i++)
         {
             Activity a=activities.get(i);
-            ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getAvator(),a.getOrganizerIntro()));
+            ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getActivityIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getOrganizerIntro(),a.getAvator(),a.getOrganizerStatus()));
             helpers.add(helper);
         }
         if(activities.size()==0)
             return new AjaxJson(500,"数据库不存在该信息",null,0L);
         else
             return new AjaxJson(200,"查询成功",helpers,(long)helpers.size());
+    }
+
+    @ApiOperation("查看某人是否点赞过某活动")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "individualUserID",value = "个人用户ID"),
+            @ApiImplicitParam(name = "activityID",value = "活动ID")
+    })
+    @RequestMapping(value = "/checkLike",method = RequestMethod.GET)
+    public AjaxJson checkLike(String individualUserID,int activityID)
+    {
+        int r= activityService.checkLike(individualUserID, activityID);
+        if(r==0)
+            return new AjaxJson(200,"未点赞",r,0L);
+        else
+            return new AjaxJson(200,"已经点赞过",r,1L);
+    }
+
+    @ApiOperation("查看某人是否报名过某活动")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "individualUserID",value = "个人用户ID"),
+            @ApiImplicitParam(name = "activityID",value = "活动ID")
+    })
+    @RequestMapping(value = "/checkSignUp",method = RequestMethod.GET)
+    public AjaxJson checkSignUp(String individualUserID,int activityID)
+    {
+        int r= activityService.checkSignUp(individualUserID, activityID);
+        if(r==0)
+            return new AjaxJson(200,"未报名",r,0L);
+        else
+            return new AjaxJson(200,"已报名",r,1L);
+    }
+    @ApiOperation("取消报名活动")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "individualUserID",value = "个人用户ID"),
+            @ApiImplicitParam(name = "activityID",value = "活动ID")
+    })
+    @RequestMapping(value = "/cancleSignUp",method = RequestMethod.GET)
+    public AjaxJson cancleSignUp(String individualUserID,int activityID)
+    {
+        int r=activityService.cancleSignUp(individualUserID, activityID);
+        if(r==1)
+            return new AjaxJson(200,"取消报名成功",r,0L);
+        else
+            return new AjaxJson(500,"取消失败",r,1L);
     }
 
 }

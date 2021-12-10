@@ -29,6 +29,10 @@ public interface ActivityMapper {
     public int checkSignUpSitua(String individualUserID,int activityID);
     //报名活动
     public int signUpActivity(String individualUserID,int activityID);
+
+    //取消报名活动
+    public int cancleSignUp(String individualUserID,int activityID);
+
     //返回某人没有报名过的活动
     public List<Activity> getNotSignUpActivity(String ID);
     //获取所有地点标签
@@ -39,4 +43,6 @@ public interface ActivityMapper {
     public String getOrgByActivity(int ID);
     //变化报名数
     public int addSubscribNum(int activityID,int subNum);
+    //查看某人是否点赞过某活动
+    public int checkLike(String individualUserID,int activityID);
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "Admin")
+@Api(tags = "Organization")
 public class OrganizationController {
     @Autowired
     OrganizationService organizationService;

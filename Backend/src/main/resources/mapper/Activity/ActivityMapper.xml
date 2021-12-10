@@ -2,9 +2,49 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--        private int ID;-->
+<!--        private String title;-->
+<!--        private String img;-->
+<!--        private int organizationID;-->
+<!--        private String organizerName;-->
+<!--        private String organizerIntro;-->
+<!--        private String organizerAvator;-->
+<!--        private int organizerStatus;-->
+<!--        private String avator;-->
+<!--        private String date;-->
+<!--        private String place;-->
+<!--        private String form;-->
+<!--        private String introduction;-->
+<!--        private String content;-->
+<!--        private String genres;-->
+<!--        private int likeNum;-->
+<!--        private int capacity;-->
+<!--        private int status;-->
+<!--        private int subscriberNum;-->
 <mapper namespace="com.example.backend.DAO.Activity.ActivityMapper">
-    <select id="getAllActivities" resultType="com.example.backend.Entity.Activity.Activity">
-        select activity.ID,TITLE,IMG,organization.ID,organization.USERNAME,organization.INTRODUCTION,organization.AVATOR,DATE,PLACE,FORM,activity.INTRODUCTION,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,activity.SUBSCRIBER_NUM
+    <resultMap id="mapActivity" type="com.example.backend.Entity.Activity.Activity">
+        <id property="ID" column="aID"/>
+        <id property="organizationID" column="oID"/>
+        <result property="title" column="TITLE"/>
+        <result property="img" column="IMG"/>
+        <result property="organizerName" column="organization.USERNAME" />
+        <result property="organizerIntro" column="oIN" />
+        <result property="organizerStatus" column="organization.STATUS" />
+        <result property="avator" column="organization.AVATOR" />
+        <result property="date" column="DATE" />
+        <result property="place" column="PLACE" />
+        <result property="form" column="FORM" />
+        <result property="activityIntroduction" column="aIN"/>
+        <result property="content" column="CONTENT" />
+        <result property="genres" column="GENRES" />
+        <result property="likeNum" column="LIKENUM" />
+        <result property="capacity" column="CAPACITY" />
+        <result property="status" column="activity.STATUS" />
+        <result property="subscriberNum" column="SUBSCRIBER_NUM" />
+    </resultMap>
+
+    <select id="getAllActivities" resultMap="mapActivity">
+        select activity.ID as aID,TITLE,IMG,organization.ID as oID,organization.USERNAME,organization.INTRODUCTION as oIN,organization.AVATOR,organization.STATUS,DATE,PLACE,FORM,activity.INTRODUCTION as aIN,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,activity.SUBSCRIBER_NUM
         from activity,organization
         where activity.ORGANIZATION_ID=organization.ID;
     </select>
@@ -32,8 +72,8 @@
         values (#{individualUserID},#{activityID})
     </insert>
 
-    <select id="getLikeNum" resultType="com.example.backend.Entity.Activity.Activity">
-        select activity.ID,TITLE,IMG,organization.ID,organization.USERNAME,organization.INTRODUCTION,organization.AVATOR,DATE,PLACE,FORM,activity.INTRODUCTION,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,SUBSCRIBER_NUM
+    <select id="getLikeNum" resultMap="mapActivity">
+        select activity.ID as aID,TITLE,IMG,organization.ID as oID,organization.USERNAME,organization.INTRODUCTION as oIN,organization.AVATOR,organization.STATUS,DATE,PLACE,FORM,activity.INTRODUCTION as aIN,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,activity.SUBSCRIBER_NUM
         from activity,organization
         where activity.ID=#{activityID}
         and organization.ID=activity.ORGANIZATION_ID;
@@ -68,8 +108,14 @@
         values (#{individualUserID},#{activityID})
     </insert>
 
-    <select id="getNotSignUpActivity" resultType="com.example.backend.Entity.Activity.Activity">
-        select activity.ID,TITLE,IMG,organization.ID,organization.USERNAME,organization.INTRODUCTION,organization.AVATOR,DATE,PLACE,FORM,activity.INTRODUCTION,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,SUBSCRIBER_NUM
+    <delete id="cancleSignUp">
+        delete from sign_up_form
+        where INDIVIDUAL_USER_ID=#{individualUserID}
+        and ACTIVITY_ID=#{activityID};
+    </delete>
+
+    <select id="getNotSignUpActivity" resultMap="mapActivity">
+        select activity.ID as aID,TITLE,IMG,organization.ID as oID,organization.USERNAME,organization.INTRODUCTION as oIN,organization.AVATOR,organization.STATUS,DATE,PLACE,FORM,activity.INTRODUCTION as aIN,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,activity.SUBSCRIBER_NUM
         from activity,organization
         where activity.ID not in (select ACTIVITY_ID
                         from sign_up_form
@@ -99,5 +145,12 @@
         set SUBSCRIBER_NUM=#{subNum}
         where ID=#{activityID}
     </update>
+
+    <select id="checkLike" resultType="Integer">
+        select count(*)
+        from like_activity
+        where INDIVIDUAL_USER_ID=#{individualUserID}
+        and ACTIVITY_ID=#{activityID};
+    </select>
 
 </mapper>

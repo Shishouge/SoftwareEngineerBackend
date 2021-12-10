@@ -3,15 +3,43 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.backend.DAO.Account.IndividualUserMapper">
+    <resultMap id="mapIndividualUser" type="com.example.backend.Entity.Account.IndividualUser">
+        <id property="ID" column="ID"/>
+        <result property="USER_NAME" column="USER_NAME"/>
+        <result property="AVATOR" column="AVATOR"/>
+        <result property="INTRODUCTION" column="INTRODUCTION" />
+        <result property="STATUS" column="STATUS" />
+    </resultMap>
+
+    <resultMap id="mapActivity" type="com.example.backend.Entity.Activity.Activity">
+        <id property="ID" column="aID"/>
+        <id property="organizationID" column="oID"/>
+        <result property="title" column="TITLE"/>
+        <result property="img" column="IMG"/>
+        <result property="organizerName" column="organization.USERNAME" />
+        <result property="organizerIntro" column="oIN" />
+        <result property="organizerStatus" column="organization.STATUS" />
+        <result property="avator" column="organization.AVATOR" />
+        <result property="date" column="DATE" />
+        <result property="place" column="PLACE" />
+        <result property="form" column="FORM" />
+        <result property="activityIntroduction" column="aIN"/>
+        <result property="content" column="CONTENT" />
+        <result property="genres" column="GENRES" />
+        <result property="likeNum" column="LIKENUM" />
+        <result property="capacity" column="CAPACITY" />
+        <result property="status" column="activity.STATUS" />
+        <result property="subscriberNum" column="SUBSCRIBER_NUM" />
+    </resultMap>
     <select id="getByUserEmailAndPassword" resultType="com.example.backend.Entity.Account.IndividualUser">
-        SELECT *
+        SELECT ID,USER_NAME,AVATOR,INTRODUCTION,STATUS
         FROM individual_user
         WHERE ID=#{ID}
           AND PASSWORD=#{password}
     </select>
 
     <select id="getByEmail" resultType="com.example.backend.Entity.Account.IndividualUser">
-        SELECT *
+        SELECT ID,USER_NAME,AVATOR,INTRODUCTION,STATUS
         FROM individual_user
         WHERE ID=#{ID}
     </select>
@@ -40,8 +68,8 @@
         and focus_question.QUESTION_ID=question.ID;
     </select>
 
-    <select id="getMySignUpActivities" resultType="com.example.backend.Entity.Activity.Activity">
-        select activity.ID,TITLE,IMG,organization.ID,organization.USERNAME,organization.INTRODUCTION,organization.AVATOR,DATE,PLACE,FORM,activity.INTRODUCTION,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,activity.SUBSCRIBER_NUM
+    <select id="getMySignUpActivities" resultMap="mapActivity">
+        select activity.ID as aID,TITLE,IMG,organization.ID as oID,organization.USERNAME,organization.INTRODUCTION as oIN,organization.AVATOR,organization.STATUS,DATE,PLACE,FORM,activity.INTRODUCTION as aIN,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,activity.SUBSCRIBER_NUM
         from sign_up_form,activity,organization
         where sign_up_form.INDIVIDUAL_USER_ID=#{ID}
         and sign_up_form.ACTIVITY_ID=activity.ID
