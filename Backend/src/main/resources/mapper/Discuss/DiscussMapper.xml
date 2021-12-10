@@ -17,4 +17,38 @@
         from question
     </select>
 
+    <resultMap id="MapQuestionWithFollowNumAndLikeNumAndAvatar" type="com.example.backend.Entity.Discuss.QuestionWithFollowNumAndLikeNumAndAvatar">
+        <result column="ID" jdbcType="INTEGER" property="id" />
+        <result column="TITLE" jdbcType="VARCHAR" property="title" />
+        <result column="CONTENT" jdbcType="VARCHAR" property="description" />
+        <result column="FOLLOW_NUM" jdbcType="INTEGER" property="followNum" />
+        <result column="ANSWER_NUM" jdbcType="INTEGER" property="answerNum"/>
+        <result column="AVATAR" jdbcType="VARCHAR" property="avatar"/>
+    </resultMap>
+
+    <select id="getQuestionWithFollowNumAndLikeNum" resultMap="MapQuestionWithFollowNumAndLikeNumAndAvatar">
+        select ID,TITLE,CONTENT,FOLLOW_NUM,ANSWER_NUM,AVATAR
+        from question
+        where AVATAR != null
+    </select>
+
+    <resultMap id="MapAnswerWithUserInfo" type="com.example.backend.Entity.Discuss.AnswerWithUserInfo">
+        <result column="ANSWER_ID" jdbcType="INTEGER" property="id" />
+        <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+        <result column="LIKE_NUM" jdbcType="INTEGER" property="approveNum" />
+        <result column="DISLIKE_NUM" jdbcType="INTEGER" property="disapproveNum"/>
+        <association property="userInfo" javaType="UserInfo">
+        <!-- id:声明主键，表示user_id是关联查询对象的唯一标识-->
+<!--        <id property="id" column="ID" />-->
+        <result property="name" column="USER_NAME" />
+        <result property="avatar" column="AVATOR" />
+        </association>
+    </resultMap>
+
+    <select id="getAllAnswerByQuestionId" resultMap="MapAnswerWithUserInfo">
+        select answer.ID as ANSWER_ID , answer.CONTENT,answer.LiKE_NUM,answer.DISLIKE_NUM,individual_user.USER_NAME,individual_user.AVATOR
+        from answer ,individual_user
+        where answer.INDIVIDUAL_USER_ID = individual_user.ID and answer.QUESTION_ID = #{questionId}
+    </select>
+
 </mapper>

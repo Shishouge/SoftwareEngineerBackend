@@ -25,4 +25,19 @@ public class DiscussController {
     {
         return discussService.getQuestionWithFollowNumAndLikeNum();
     }
+
+    @ApiOperation("获得所有的精选问题")
+    @GetMapping("/getQuestionWithFollowNumAndLikeNumAndAvatar")
+    public AjaxJson getQuestionWithFollowNumAndLikeNumAndAvatar()
+    {
+        return discussService.getQuestionWithFollowNumAndLikeNumAndAvatar();
+    }
+
+
+    @ApiOperation("通过问题的id获得所有的回答")
+    @PostMapping("getAllAnswerByQuestionId")
+    public AjaxJson getAllAnswerByQuestionId(int questionId)
+    {
+        return discussService.getAllAnswerByQuestionId(questionId);
+    }
 }

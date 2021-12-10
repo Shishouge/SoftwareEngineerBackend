@@ -6,4 +6,7 @@ public interface DiscussService {
 
      public AjaxJson getQuestionWithFollowNumAndLikeNum();
 
+     public AjaxJson getAllAnswerByQuestionId(int questionId);
+
+     public AjaxJson getQuestionWithFollowNumAndLikeNumAndAvatar();
 }

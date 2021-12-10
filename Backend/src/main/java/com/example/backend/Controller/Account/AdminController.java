@@ -20,8 +20,10 @@ import java.util.List;
 
 @RestController
 public class AdminController {
+
     @Autowired
     AdminService adminService;
+
     @ApiOperation("登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ID",value = "管理员ID"),
