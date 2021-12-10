@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @Api(tags = "活动接口")
 public class ActivityController {
-    @Autowired
+
     ActivityService activityService;
 
     @Autowired

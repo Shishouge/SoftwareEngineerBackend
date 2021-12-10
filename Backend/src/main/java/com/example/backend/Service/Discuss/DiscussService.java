@@ -9,4 +9,8 @@ public interface DiscussService {
      public AjaxJson getAllAnswerByQuestionId(int questionId);
 
      public AjaxJson getQuestionWithFollowNumAndLikeNumAndAvatar();
+
+     public AjaxJson checkFocusQuestion(String userId, int questionId);
+
+     public AjaxJson takeAntiFocusQuestion(String userId, int questionId);
 }

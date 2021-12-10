@@ -16,4 +16,8 @@ public interface DiscussMapper {
     public List<AnswerWithUserInfo> getAllAnswerByQuestionId(int questionId);
 
     public List<QuestionWithFollowNumAndLikeNumAndAvatar> getQuestionWithFollowNumAndLikeNumAndAvatar();
+
+    public List<QuestionWithFollowNumAndLikeNum> checkFocusQuestion(String userId, int questionId);
+    public int addFocusQuestion(String userId, int questionId);
+    public int deleteFocusQuestion(String userId, int questionId);
 }
