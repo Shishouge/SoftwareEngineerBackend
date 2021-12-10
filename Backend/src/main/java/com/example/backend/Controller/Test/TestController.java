@@ -2,6 +2,7 @@ package com.example.backend.Controller.Test;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -36,14 +37,15 @@ public class TestController {
         StpUtil.logoutByLoginId(10001);
         return "SUCCESS";
     }
-    //123
-
 
     @ApiOperation("登陆后校验，能返回证明登陆成功")
     @GetMapping("/doCheck")
-    public String doCheck() {
+    public JSONObject doCheck() {
 
-        return "123";
+        JSONObject json = new JSONObject();
+        json.put("status", 200);
+        json.put("result", "提交成功！");
+        return json;
     }
 
 }
