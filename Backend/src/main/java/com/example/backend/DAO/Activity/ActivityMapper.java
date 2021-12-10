@@ -45,4 +45,6 @@ public interface ActivityMapper {
     public int addSubscribNum(int activityID,int subNum);
     //查看某人是否点赞过某活动
     public int checkLike(String individualUserID,int activityID);
+    //修改活动状态
+    public int editStatus(int activityID,int toStatus);
 }

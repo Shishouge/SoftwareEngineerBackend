@@ -2,8 +2,11 @@ package com.example.backend.Service.Account;
 
 import com.example.backend.DAO.Account.OrganizationMapper;
 import com.example.backend.Entity.Account.Organization;
+import com.example.backend.Entity.Activity.Activity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
@@ -24,9 +27,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public Organization getByUserAndPassword(String userName,String password)
+    public Organization getByUserAndPassword(int ID,String password)
     {
-        Organization organization=organizationMapper.getByUserAndPassword(userName, password);
+        Organization organization=organizationMapper.getByUserAndPassword(ID, password);
         return organization;
     }
 
@@ -35,6 +38,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     {
         Organization organization=organizationMapper.getOrgByName(name);
         return organization;
+    }
+
+    @Override
+    public List<Activity> getAllActivityByOrg(int ID)
+    {
+        return organizationMapper.getActivityByOrgID(ID);
     }
 
 }

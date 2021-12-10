@@ -68,8 +68,18 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public int signUpActivity(String individualUserID, int activityID) {
-        int result = activityMapper.signUpActivity(individualUserID, activityID);
-        activityMapper.addSubscribNum(activityID,activityMapper.getLikeNum(activityID).getSubscriberNum()+1);
+        Activity a=activityMapper.getLikeNum(activityID);
+        int result=-1;
+        if(a.getSubscriberNum()==a.getCapacity()-1)
+        {
+            result = activityMapper.signUpActivity(individualUserID, activityID);
+            activityMapper.addSubscribNum(activityID,activityMapper.getLikeNum(activityID).getSubscriberNum()+1);
+            activityMapper.editStatus(activityID,0);
+        }
+        else {
+            result = activityMapper.signUpActivity(individualUserID, activityID);
+            activityMapper.addSubscribNum(activityID,activityMapper.getLikeNum(activityID).getSubscriberNum()+1);
+        }
         return result;
     }
 

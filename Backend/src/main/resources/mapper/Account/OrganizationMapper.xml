@@ -3,6 +3,26 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.backend.DAO.Account.OrganizationMapper">
+    <resultMap id="mapActivity" type="com.example.backend.Entity.Activity.Activity">
+        <id property="ID" column="aID"/>
+        <id property="organizationID" column="oID"/>
+        <result property="title" column="TITLE"/>
+        <result property="img" column="IMG"/>
+        <result property="organizerName" column="organization.USERNAME" />
+        <result property="organizerIntro" column="oIN" />
+        <result property="organizerStatus" column="organization.STATUS" />
+        <result property="avator" column="organization.AVATOR" />
+        <result property="date" column="DATE" />
+        <result property="place" column="PLACE" />
+        <result property="form" column="FORM" />
+        <result property="activityIntroduction" column="aIN"/>
+        <result property="content" column="CONTENT" />
+        <result property="genres" column="GENRES" />
+        <result property="likeNum" column="LIKENUM" />
+        <result property="capacity" column="CAPACITY" />
+        <result property="status" column="activity.STATUS" />
+        <result property="subscriberNum" column="SUBSCRIBER_NUM" />
+    </resultMap>
 
     <insert id="insertOrganization">
         insert into organization (USERNAME, PASSWORD,INTRODUCTION,AVATOR,CERTIFICATION,STATUS)
@@ -24,7 +44,7 @@
     <select id="getByUserAndPassword" resultType="com.example.backend.Entity.Account.Organization">
         select ID,USERNAME,AVATOR,INTRODUCTION,STATUS
         from organization
-        where USERNAME=#{userName}
+        where ID=#{ID}
         and PASSWORD=#{password};
     </select>
 
@@ -33,6 +53,15 @@
         set USER_NAME=#{name},PASSWORD=#{password},INTRODUCTION=#{introduction},AVATOR=#{avator}
         where INDIVIDUAL_USER_ID=#{ID};
     </update>
+
+
+
+    <select id="getActivityByOrgID" resultMap="mapActivity">
+        select activity.ID as aID,TITLE,IMG,organization.ID as oID,organization.USERNAME,organization.INTRODUCTION as oIN,organization.AVATOR,organization.STATUS,DATE,PLACE,FORM,activity.INTRODUCTION as aIN,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,activity.SUBSCRIBER_NUM
+        from activity,organization
+        where activity.ORGANIZATION_ID=#{ID}
+        and organization.ID=#{ID};
+    </select>
 
 
 

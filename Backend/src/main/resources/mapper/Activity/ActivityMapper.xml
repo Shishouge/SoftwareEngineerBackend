@@ -153,4 +153,10 @@
         and ACTIVITY_ID=#{activityID};
     </select>
 
+    <update id="editStatus">
+        update activity
+        set STATUS = #{toStatus}
+        where ID=#{activityID};
+    </update>
+
 </mapper>

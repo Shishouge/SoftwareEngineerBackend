@@ -43,6 +43,7 @@ public class ActivityController {
             return new AjaxJson(500,"数据库不存在该信息",null,0L);
         else
             return new AjaxJson(200,"查询成功",helpers,(long)helpers.size());
+
     }
 
     @ApiOperation(value = "根据ID获取某一活动的细节")
