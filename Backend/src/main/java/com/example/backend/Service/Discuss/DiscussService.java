@@ -13,4 +13,5 @@ public interface DiscussService {
      public AjaxJson checkFocusQuestion(String userId, int questionId);
 
      public AjaxJson takeAntiFocusQuestion(String userId, int questionId);
+
 }

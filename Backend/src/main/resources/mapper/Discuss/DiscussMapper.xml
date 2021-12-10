@@ -23,12 +23,7 @@
         where question.ID = focus_question.QUESTION_ID and focus_question.INDIVIDUAL_USER_ID = #{userId} and question.ID= #{questionId}
     </select>
 
-    
-<!--    <select id="test" resultType="com.example.backend.Entity.Activity.Activity">-->
-<!--        select ID,INTRODUCTION-->
-<!--        from question,focus_question-->
-<!--        where question.ID = focus_question.QUESTION_ID and focus_question.INDIVIDUAL_USER_ID = #{userId} and question.ID= #{questionId}-->
-<!--    </select>-->
+
 
     <insert id="addFocusQuestion">
         insert into focus_question (INDIVIDUAL_USER_ID, QUESTION_ID)
