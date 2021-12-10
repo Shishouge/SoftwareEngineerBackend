@@ -19,7 +19,7 @@ public class AjaxJson implements Serializable {
 
     public int code; 	// 状态码
     public String msg; 	// 描述信息
-    public Object data; // 携带对象
+    public Object result; // 携带对象
     public Long dataCount;	// 数据总数，用于分页
 
     /**
@@ -44,8 +44,8 @@ public class AjaxJson implements Serializable {
     /**
      * 给data赋值，连缀风格
      */
-    public AjaxJson setData(Object data) {
-        this.data = data;
+    public AjaxJson setResult(Object result) {
+        this.result = result;
         return this;
     }
 
@@ -54,7 +54,7 @@ public class AjaxJson implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public <T> T getData(Class<T> cs) {
-        return (T) data;
+        return (T) result;
     }
 
     // ============================  构建  ==================================
@@ -62,7 +62,7 @@ public class AjaxJson implements Serializable {
     public AjaxJson(int code, String msg, Object data, Long dataCount) {
         this.code = code;
         this.msg = msg;
-        this.data = data;
+        this.result = data;
         this.dataCount = dataCount;
     }
 
@@ -124,7 +124,7 @@ public class AjaxJson implements Serializable {
         if(line > 0){
             return getSuccess("ok", line);
         }
-        return getError("error").setData(line);
+        return getError("error").setResult(line);
     }
 
     // 返回，根据布尔值来确定最终结果的  (true=ok，false=error)
@@ -139,12 +139,12 @@ public class AjaxJson implements Serializable {
     @Override
     public String toString() {
         String data_string = null;
-        if(data == null){
+        if(result == null){
 
-        } else if(data instanceof List){
-            data_string = "List(length=" + ((List)data).size() + ")";
+        } else if(result instanceof List){
+            data_string = "List(length=" + ((List) result).size() + ")";
         } else {
-            data_string = data.toString();
+            data_string = result.toString();
         }
         return "{"
                 + "\"code\": " + this.getCode()

@@ -1,40 +1,21 @@
 package com.example.backend.Entity.Account;
 
 public abstract class User {
-    private String ID;
-    private String PASSWORD;
-    private String USER_NAME;
+    private String USERNAME;
     private String AVATOR;
 
-    public User(String ID, String PASSWORD, String USER_EMAIL, String AVATOR) {
-        this.ID = ID;
-        this.PASSWORD = PASSWORD;
-        this.USER_NAME = USER_EMAIL;
+    public User(String USEREMAIL, String AVATOR) {
+        this.USERNAME = USEREMAIL;
         this.AVATOR = AVATOR;
     }
 
-    public String getID() {
-        return ID;
+
+    public String getUSERNAME() {
+        return USERNAME;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
-    public String getPASSWORD() {
-        return PASSWORD;
-    }
-
-    public void setPASSWORD(String PASSWORD) {
-        this.PASSWORD = PASSWORD;
-    }
-
-    public String getUSER_NAME() {
-        return USER_NAME;
-    }
-
-    public void setUSER_NAME(String USER_NAME) {
-        this.USER_NAME = USER_NAME;
+    public void setUSER_NAME(String USERNAME) {
+        this.USERNAME = USERNAME;
     }
 
     public String getAVATOR() {

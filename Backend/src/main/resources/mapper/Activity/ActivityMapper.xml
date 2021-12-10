@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.DAO.Activity.ActivityMapper">
+    <select id="getAllActivities" resultType="com.example.backend.Entity.Activity.Activity">
+        select activity.ID,TITLE,IMG,organization.ID,organization.USERNAME,organization.INTRODUCTION,organization.AVATOR,DATE,PLACE,FORM,activity.INTRODUCTION,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,activity.SUBSCRIBER_NUM
+        from activity,organization
+        where activity.ORGANIZATION_ID=organization.ID;
+    </select>
+
+    <select id="getReviewsByActivity" resultType="com.example.backend.Entity.Activity.ReviewActivity">
+        select review_activity.INDIVIDUAL_USER_ID,review_activity.ACTIVITY_ID,review_activity.CONTENT,review_activity.SCORE,individual_user.USER_NAME,individual_user.INTRODUCTION,individual_user.AVATOR
+        from review_activity,individual_user
+        where review_activity.ACTIVITY_ID=#{ID}
+        and review_activity.INDIVIDUAL_USER_ID=individual_user.ID;
+    </select>
+
+    <insert id="publishActivity">
+        insert into activity(TITLE,IMG,ORGANIZATION_ID,DATE,PLACE,FORM,INTRODUCTION,CONTENT,GENRES,LIKENUM,CAPACITY,STATUS,SUBSCRIBER_NUM)
+        values(#{title},#{img},#{organizationID},#{date},#{place},#{form},#{introduction},#{content},#{genres},#{likeNum},#{capacity},#{status},#{subscriberNum})
+    </insert>
+
+    <update id="updateActivity">
+        update activity
+        set TITLE=#{title},IMG=#{img},ORGANIZATION_ID=#{organizationID},DATE=#{date},PLACE=#{place},FORM=#{form},INTRODUCTION=#{introduction},CONTENT=#{content},GENRES=#{genres},CAPACITY=#{capacity},STATUS=#{status}
+        where ID=#{ID};
+    </update>
+
+    <insert id="likeActivity">
+        insert into like_activity(INDIVIDUAL_USER_ID,ACTIVITY_ID)
+        values (#{individualUserID},#{activityID})
+    </insert>
+
+    <select id="getLikeNum" resultType="com.example.backend.Entity.Activity.Activity">
+        select activity.ID,TITLE,IMG,organization.ID,organization.USERNAME,organization.INTRODUCTION,organization.AVATOR,DATE,PLACE,FORM,activity.INTRODUCTION,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,SUBSCRIBER_NUM
+        from activity,organization
+        where activity.ID=#{activityID}
+        and organization.ID=activity.ORGANIZATION_ID;
+    </select>
+
+    <update id="addLikeNum">
+        update activity
+        set LIKENUM=#{likeNum}
+        where ID=#{activityID}
+    </update>
+
+    <delete id="unlike">
+        delete from like_activity
+        where INDIVIDUAL_USER_ID=#{individualUserID}
+        and ACTIVITY_ID=#{activityID};
+    </delete>
+
+    <insert id="review">
+        insert into review_activity(INDIVIDUAL_USER_ID,ACTIVITY_ID,CONTENT,SCORE)
+        values (#{individualUserID},#{activityID},#{content},#{score})
+    </insert>
+
+    <select id="checkSignUpSitua" resultType="Integer">
+        select count(*)
+        from sign_up_form
+        where INDIVIDUAL_USER_ID=#{individualUserID}
+        and ACTIVITY_ID=#{activityID};
+    </select>
+
+    <insert id="signUpActivity">
+        insert into sign_up_form(INDIVIDUAL_USER_ID,ACTIVITY_ID)
+        values (#{individualUserID},#{activityID})
+    </insert>
+
+    <select id="getNotSignUpActivity" resultType="com.example.backend.Entity.Activity.Activity">
+        select activity.ID,TITLE,IMG,organization.ID,organization.USERNAME,organization.INTRODUCTION,organization.AVATOR,DATE,PLACE,FORM,activity.INTRODUCTION,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,SUBSCRIBER_NUM
+        from activity,organization
+        where activity.ID not in (select ACTIVITY_ID
+                        from sign_up_form
+                        where INDIVIDUAL_USER_ID=#{ID})
+        and activity.ORGANIZATION_ID=organization.ID;
+    </select>
+
+    <select id="getAllPlaces" resultType="String">
+        select PLACE
+        from activity
+    </select>
+
+    <select id="getAllOrgs" resultType="String">
+        select USERNAME
+        from organization
+    </select>
+
+    <select id="getOrgByActivity" resultType="String">
+        select organization.USERNAME
+        from activity,organization
+        where activity.ID=#{ID}
+        and activity.ORGANIZATION_ID=organization.ID;
+    </select>
+
+    <update id="addSubscribNum">
+        update activity
+        set SUBSCRIBER_NUM=#{subNum}
+        where ID=#{activityID}
+    </update>
+
+</mapper>
