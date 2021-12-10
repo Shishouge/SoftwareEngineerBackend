@@ -74,6 +74,25 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    public int checkLike(String iID,int aID)
+    {
+        return activityMapper.checkLike(iID,aID);
+    }
+
+    @Override
+    public int checkSignUp(String iID,int aID)
+    {
+        return activityMapper.checkSignUpSitua(iID,aID);
+    }
+
+    @Override
+    public int cancleSignUp(String iID,int aID)
+    {
+        int result=activityMapper.cancleSignUp(iID,aID);
+        activityMapper.addSubscribNum(aID,activityMapper.getLikeNum(aID).getSubscriberNum()-1);
+        return result;
+    }
+    @Override
     public List<Activity> getRecommendActivity(String ID) {
         List<String> PLACE_LABEL = activityMapper.getAllPlaces();
         List<String> ORGANIZER_LABEL = activityMapper.getAllOrgs();

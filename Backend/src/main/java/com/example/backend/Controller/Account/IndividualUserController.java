@@ -31,8 +31,8 @@ public class IndividualUserController {
     IndividualUserMapper individualUserMapper;
     @ApiOperation("登录接口，传入邮箱和密码，返回true/false")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="email",value = "用户邮箱",defaultValue = "2872529770@qq.com",required = true),
-            @ApiImplicitParam(name="password",value = "用户密码",defaultValue = "111",required = true)
+            @ApiImplicitParam(name="email",value = "用户邮箱",defaultValue = "11",required = true),
+            @ApiImplicitParam(name="password",value = "用户密码",defaultValue = "22",required = true)
     })
     @RequestMapping(value="/login",method = {RequestMethod.GET})
     public AjaxJson login(String email, String password)

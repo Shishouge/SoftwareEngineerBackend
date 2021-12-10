@@ -10,13 +10,13 @@
     </insert>
 
     <select id="getOrgByID" resultType="com.example.backend.Entity.Account.Organization">
-        select ID,USERNAME,AVATOR,INTRODUCTION,STATUS
+        select ID,USERNAME,INTRODUCTION,AVATOR,STATUS
         from organization
         where ID=#{ID};
     </select>
 
     <select id="getOrgByName" resultType="com.example.backend.Entity.Account.Organization">
-        select ID,USERNAME,AVATOR,INTRODUCTION,STATUS
+        select ID,USERNAME,INTRODUCTION,AVATOR,STATUS
         from organization
         where USERNAME=#{name};
     </select>

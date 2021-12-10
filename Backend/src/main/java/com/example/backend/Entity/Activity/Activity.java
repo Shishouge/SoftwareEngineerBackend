@@ -4,14 +4,17 @@ public class Activity {
     private int ID;
     private String title;
     private String img;
+
     private int organizationID;
     private String organizerName;
     private String organizerIntro;
     private String avator;
+    private int organizerStatus;
+
     private String date;
     private String place;
     private String form;
-    private String introduction;
+    private String activityIntroduction;
     private String content;
     private String genres;
     private int likeNum;
@@ -21,7 +24,7 @@ public class Activity {
 //    private String userName;
 
 
-    public Activity(int ID, String title, String img, int organizationID, String organizerName, String organizerIntro, String avator, String date, String place, String form, String introduction, String content, String genres, int likeNum, int capacity, int status, int subscriberNum) {
+    public Activity(int ID, String title, String img, int organizationID, String organizerName, String organizerIntro, String avator, int organizerStatus, String date, String place, String form, String introduction, String content, String genres, int likeNum, int capacity, int status, int subscriberNum) {
         this.ID = ID;
         this.title = title;
         this.img = img;
@@ -29,10 +32,11 @@ public class Activity {
         this.organizerName = organizerName;
         this.organizerIntro = organizerIntro;
         this.avator = avator;
+        this.organizerStatus = organizerStatus;
         this.date = date;
         this.place = place;
         this.form = form;
-        this.introduction = introduction;
+        this.activityIntroduction = introduction;
         this.content = content;
         this.genres = genres;
         this.likeNum = likeNum;
@@ -97,12 +101,12 @@ public class Activity {
         this.form = form;
     }
 
-    public String getIntroduction() {
-        return introduction;
+    public String getActivityIntroduction() {
+        return activityIntroduction;
     }
 
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
+    public void setActivityIntroduction(String activityIntroduction) {
+        this.activityIntroduction = activityIntroduction;
     }
 
     public String getContent() {
@@ -177,11 +181,12 @@ public class Activity {
         this.subscriberNum = subscriberNum;
     }
 
-    //    public String getUserName() {
-//        return userName;
-//    }
-//
-//    public void setUserName(String userName) {
-//        this.userName = userName;
-//    }
+
+    public int getOrganizerStatus() {
+        return organizerStatus;
+    }
+
+    public void setOrganizerStatus(int organizerStatus) {
+        this.organizerStatus = organizerStatus;
+    }
 }

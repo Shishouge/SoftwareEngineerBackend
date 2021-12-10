@@ -24,4 +24,10 @@ public interface ActivityService {
     public int signUpActivity(String individualUserID,int activityID);
     //获取推荐活动列表
     public List<Activity> getRecommendActivity(String ID);
+    //检查某人是否点赞某活动
+    public int checkLike(String iID,int aID);
+    //检查某人是否报名过某活动
+    public int checkSignUp(String iID,int aID);
+    //取消报名活动
+    public int cancleSignUp(String iID,int aID);
 }
