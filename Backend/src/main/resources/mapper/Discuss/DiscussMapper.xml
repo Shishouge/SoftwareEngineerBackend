@@ -26,10 +26,10 @@
         <result column="AVATAR" jdbcType="VARCHAR" property="avatar"/>
     </resultMap>
 
-    <select id="getQuestionWithFollowNumAndLikeNum" resultMap="MapQuestionWithFollowNumAndLikeNumAndAvatar">
+    <select id="getQuestionWithFollowNumAndLikeNumAndAvatar" resultMap="MapQuestionWithFollowNumAndLikeNumAndAvatar">
         select ID,TITLE,CONTENT,FOLLOW_NUM,ANSWER_NUM,AVATAR
         from question
-        where AVATAR != null
+        where AVATAR != 0
     </select>
 
     <resultMap id="MapAnswerWithUserInfo" type="com.example.backend.Entity.Discuss.AnswerWithUserInfo">

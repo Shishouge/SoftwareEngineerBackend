@@ -13,7 +13,6 @@ import java.util.List;
 @Service
 public class DiscussServiceImpl implements DiscussService {
 
-    private QuestionWithFollowNumAndLikeNum questionWithFollowNumAndLikeNum;
 
     @Autowired
     private DiscussMapper discussMapper;
