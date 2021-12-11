@@ -30,4 +30,6 @@ public interface ActivityService {
     public int checkSignUp(String iID,int aID);
     //取消报名活动
     public int cancleSignUp(String iID,int aID);
+    //得到活动评价的情感分析
+    public String getEmotionalAnalysis(int ID);
 }

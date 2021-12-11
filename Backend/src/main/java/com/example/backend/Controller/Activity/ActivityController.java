@@ -11,18 +11,28 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.http.entity.ContentType;
+import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Math.E;
 
 @RestController
 @Api(tags = "活动接口")
 public class ActivityController {
 
+    @Autowired
     ActivityService activityService;
 
     @Autowired
@@ -172,7 +182,7 @@ public class ActivityController {
             @ApiImplicitParam(name = "individualUserID",value = "报名者ID"),
             @ApiImplicitParam(name = "activityID",value = "活动ID")
     })
-    @RequestMapping(value = "/signUpActivity",method = RequestMethod.GET)
+    @RequestMapping(value = "/signUpActivity",method = RequestMethod.POST)
     public AjaxJson signUpActivity(String individualUserID,int activityID)
     {
         int result=activityService.signUpActivity(individualUserID, activityID);
@@ -237,7 +247,7 @@ public class ActivityController {
             @ApiImplicitParam(name = "individualUserID",value = "个人用户ID"),
             @ApiImplicitParam(name = "activityID",value = "活动ID")
     })
-    @RequestMapping(value = "/cancleSignUp",method = RequestMethod.GET)
+    @RequestMapping(value = "/cancleSignUp",method = RequestMethod.POST)
     public AjaxJson cancleSignUp(String individualUserID,int activityID)
     {
         int r=activityService.cancleSignUp(individualUserID, activityID);
@@ -245,6 +255,25 @@ public class ActivityController {
             return new AjaxJson(200,"取消报名成功",r,0L);
         else
             return new AjaxJson(500,"取消失败",r,1L);
+    }
+
+    @ApiOperation("获取某活动评论的情感分析")
+    @ApiImplicitParam(name = "ID",value = "活动ID")
+    @RequestMapping(value = "/getEmotionalAnalysis",method = RequestMethod.GET)
+    public AjaxJson getEmotionalAnalysis(int ID)
+    {
+        Object path=new Object();
+        File pdfFile = new File("E:\\大三上\\软件工程\\data\\testData\\output.png");
+        try{
+            FileInputStream fileInputStream = new FileInputStream(pdfFile);
+            MultipartFile multipartFile = new MockMultipartFile(pdfFile.getName(), pdfFile.getName(),
+                    ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream);
+            FileController fileController=new FileController();
+            path=fileController.addFile(001,001,"/analysis/",multipartFile);
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+        return new AjaxJson(200,"得到",path,1L);
     }
 
 }

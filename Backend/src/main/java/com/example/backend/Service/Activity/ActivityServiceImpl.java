@@ -6,11 +6,21 @@ import com.example.backend.Entity.Activity.Activity;
 import com.example.backend.Entity.Activity.ReviewActivity;
 import com.example.backend.Util.Recommend.RecommendHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.python.util.PythonInterpreter;
+import org.springframework.web.multipart.MultipartFile;
+
+
+
 
 @Service
 public class ActivityServiceImpl implements ActivityService {
@@ -101,6 +111,46 @@ public class ActivityServiceImpl implements ActivityService {
         int result=activityMapper.cancleSignUp(iID,aID);
         activityMapper.addSubscribNum(aID,activityMapper.getLikeNum(aID).getSubscriberNum()-1);
         return result;
+    }
+
+    @Override
+    public String getEmotionalAnalysis(int ID)
+    {
+        List<ReviewActivity> reviewActivities=activityMapper.getReviewsByActivity(ID);
+        String filename="E:\\大三上\\软件工程\\data\\testData\\review.txt";
+        try {
+            File writeName = new File(filename);
+            writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
+            try (FileWriter writer = new FileWriter(writeName);
+                 BufferedWriter out = new BufferedWriter(writer)
+            ) {
+                for(ReviewActivity r:reviewActivities)
+                {
+                    String line2=r.getContent();
+                    out.write(line2+"\r\n"); // \r\n即为换行
+                }
+                out.flush(); // 把缓存区内容压入文件
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Process proc;
+        try {
+            proc = Runtime.getRuntime().exec("cmd /c python E:\\大三上\\软件工程\\课程项目\\代码\\train.py");// 执行py文件
+            //用输入输出流来截取结果
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                System.out.println(line);
+            }
+            in.close();
+            proc.waitFor();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "E:\\大三上\\软件工程\\data\\testData\\output.png";
     }
     @Override
     public List<Activity> getRecommendActivity(String ID) {

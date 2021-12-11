@@ -1,7 +1,7 @@
 package com.example.backend.Entity.Activity;
 
 public class ReviewActivity {
-    private int reviewerID;
+    private String reviewerID;
     private int activityID;
     private String content;
     private int score;
@@ -10,7 +10,7 @@ public class ReviewActivity {
     private String reviewerAvator;
 
 
-    public ReviewActivity(int individualUserID, int activityID, String content, int score, String userName, String introduction, String avator) {
+    public ReviewActivity(String individualUserID, int activityID, String content, int score, String userName, String introduction, String avator) {
         this.reviewerID = individualUserID;
         this.activityID = activityID;
         this.content = content;
@@ -20,11 +20,11 @@ public class ReviewActivity {
         this.reviewerAvator = avator;
     }
 
-    public int getReviewerID() {
+    public String getReviewerID() {
         return reviewerID;
     }
 
-    public void setReviewerID(int reviewerID) {
+    public void setReviewerID(String reviewerID) {
         this.reviewerID = reviewerID;
     }
 
