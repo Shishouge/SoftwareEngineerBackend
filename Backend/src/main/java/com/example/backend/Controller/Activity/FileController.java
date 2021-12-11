@@ -28,4 +28,5 @@ public class FileController {
     public AjaxJson deleteFile(String filePath,String fileName) throws IOException {
            return new AjaxJson(200, "成功执行操作",FtpUtil.deleteFile(filePath,fileName));
     }
+
 }
