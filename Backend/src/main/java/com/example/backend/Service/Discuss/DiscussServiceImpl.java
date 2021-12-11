@@ -1,9 +1,7 @@
 package com.example.backend.Service.Discuss;
 
 import com.example.backend.DAO.Discuss.DiscussMapper;
-import com.example.backend.Entity.Discuss.AnswerWithUserInfo;
-import com.example.backend.Entity.Discuss.QuestionWithFollowNumAndLikeNum;
-import com.example.backend.Entity.Discuss.QuestionWithFollowNumAndLikeNumAndAvatar;
+import com.example.backend.Entity.Discuss.*;
 import com.example.backend.Util.Response.AjaxJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,6 +85,22 @@ public class DiscussServiceImpl implements DiscussService {
             else {
                 return new AjaxJson(200, "该问题已取消关注", 0);
             }
+        }
+    }
+
+    @Override
+    public AjaxJson getAllCommentByQuestionIdAndAnswerId(int questionId, int answerId)
+    {
+        List<Comment> list = discussMapper.getAllCommentByAnswerId(answerId);
+        AnswerWithInfoAndComment answerWithInfoAndComment =
+                discussMapper.getQuestionByQuestionIdAndAnswerId(questionId,answerId);
+        answerWithInfoAndComment.setComment(list);
+        if(list.isEmpty())
+        {
+            return new AjaxJson(500,"该问题没有评论",answerWithInfoAndComment);
+        }
+        else {
+            return new AjaxJson(200, "该问题有评论", answerWithInfoAndComment);
         }
     }
 
