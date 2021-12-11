@@ -1,9 +1,11 @@
 package com.example.backend.Controller.Account;
 
+import com.example.backend.DAO.Activity.ActivityMapper;
 import com.example.backend.Entity.Account.Organization;
 import com.example.backend.Entity.Activity.Activity;
 import com.example.backend.Entity.Activity.ActivityHelper;
 import com.example.backend.Service.Account.OrganizationService;
+import com.example.backend.Service.Activity.ActivityService;
 import com.example.backend.Util.Response.AjaxJson;
 import com.example.backend.Util.Response.ResponseCode;
 import com.example.backend.Util.Response.ResponseResult;
@@ -24,6 +26,8 @@ import java.util.List;
 public class OrganizationController {
     @Autowired
     OrganizationService organizationService;
+    @Autowired
+    ActivityService activityService;
     @ApiOperation("登录接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name="ID",value = "组织ID",defaultValue = "2872529770@qq.com",required = true),
@@ -98,5 +102,29 @@ public class OrganizationController {
             return new AjaxJson(500,"数据库不存在该信息",null,0L);
         else
             return new AjaxJson(200,"查询成功",helpers,(long)helpers.size());
+    }
+
+    @ApiOperation(value = "发布活动")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "title",value="标题"),
+            @ApiImplicitParam(name = "img",value="图片地址"),
+            @ApiImplicitParam(name = "organizationID",value="发布组织ID"),
+            @ApiImplicitParam(name = "date",value="日期"),
+            @ApiImplicitParam(name = "place",value="举办地点"),
+            @ApiImplicitParam(name = "form",value="举办形式"),
+            @ApiImplicitParam(name = "introduction",value="简介"),
+            @ApiImplicitParam(name = "content",value="内容"),
+            @ApiImplicitParam(name = "genres",value="标签"),
+            @ApiImplicitParam(name = "capacity",value="容量"),
+            @ApiImplicitParam(name = "status",value="活动状态")
+    })
+    @RequestMapping(value = "/publishActivity",method = RequestMethod.POST)
+    public AjaxJson publishActivity(String title, String img, String organizationID, String date, String place, String form, String introduction, String content, String genres, int capacity, int status)
+    {
+        int result=activityService.publishActivity(title,img,organizationID,date,place,form,introduction,content,genres,capacity,status);
+        if(result==0)
+            return new AjaxJson(500,"插入失败",null,0L);
+        else
+            return new AjaxJson(200,"插入成功",result,1L);
     }
 }

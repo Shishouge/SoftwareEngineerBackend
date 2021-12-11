@@ -1,9 +1,11 @@
 package com.example.backend.Controller.Activity;
 
 import com.example.backend.DAO.Activity.ActivityMapper;
+import com.example.backend.Entity.Account.IndividualUser;
 import com.example.backend.Entity.Account.Organization;
 import com.example.backend.Entity.Activity.Activity;
 import com.example.backend.Entity.Activity.ActivityHelper;
+import com.example.backend.Entity.Activity.EmotionAnalysis;
 import com.example.backend.Entity.Activity.ReviewActivity;
 import com.example.backend.Service.Activity.ActivityService;
 import com.example.backend.Util.Response.AjaxJson;
@@ -82,29 +84,7 @@ public class ActivityController {
             return new AjaxJson(200,"查询成功",reviewActivities,(long)reviewActivities.size());
     }
     //String title,String img,String organizationID,String date,String place,String form,String introduction,String content,String genres,int capacity,int status
-    @ApiOperation(value = "发布活动")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "title",value="标题"),
-            @ApiImplicitParam(name = "img",value="图片地址"),
-            @ApiImplicitParam(name = "organizationID",value="发布组织ID"),
-            @ApiImplicitParam(name = "date",value="日期"),
-            @ApiImplicitParam(name = "place",value="举办地点"),
-            @ApiImplicitParam(name = "form",value="举办形式"),
-            @ApiImplicitParam(name = "introduction",value="简介"),
-            @ApiImplicitParam(name = "content",value="内容"),
-            @ApiImplicitParam(name = "genres",value="标签"),
-            @ApiImplicitParam(name = "capacity",value="容量"),
-            @ApiImplicitParam(name = "status",value="活动状态")
-    })
-    @RequestMapping(value = "/publishActivity",method = RequestMethod.POST)
-    public AjaxJson publishActivity(String title, String img, String organizationID, String date, String place, String form, String introduction, String content, String genres, int capacity, int status)
-    {
-        int result=activityService.publishActivity(title,img,organizationID,date,place,form,introduction,content,genres,capacity,status);
-        if(result==0)
-            return new AjaxJson(500,"插入失败",null,0L);
-        else
-            return new AjaxJson(200,"插入成功",result,1L);
-    }
+
     @ApiOperation(value = "修改活动")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "ID",value = "活动ID"),
@@ -262,18 +242,35 @@ public class ActivityController {
     @RequestMapping(value = "/getEmotionalAnalysis",method = RequestMethod.GET)
     public AjaxJson getEmotionalAnalysis(int ID)
     {
-        File pdfFile = new File("E:\\大三上\\软件工程\\data\\testData\\output.png");
-        try{
-            FileInputStream fileInputStream = new FileInputStream(pdfFile);
-            MultipartFile multipartFile = new MockMultipartFile(pdfFile.getName(), pdfFile.getName(),
-                    ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream);
-            FileController fileController=new FileController();
-            AjaxJson path=fileController.addFile("/analysis/",multipartFile);
-            return path;
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
-        }
-        return new AjaxJson(500,"错误",null,0L);
+        EmotionAnalysis e =activityService.getEmotionalAnalysis(ID);
+        return new AjaxJson(200,"成功",e,0L);
     }
 
+    @ApiOperation("删除活动")
+    @ApiImplicitParam(name = "ID",value = "活动ID")
+    @RequestMapping(value = "/deleteActivity",method = RequestMethod.POST)
+    public AjaxJson deleteActivity(int ID)
+    {
+        int r=activityService.deleteActivity(ID);
+        if(r==1)
+            return new AjaxJson(200,"删除成功",r,1L);
+        else
+            return new AjaxJson(500,"删除失败",r,0L);
+    }
+
+    @ApiOperation("获得某活动的报名者信息")
+    @ApiImplicitParam(name = "ID",value = "活动ID")
+    @RequestMapping(value = "/getUserSubscribed",method = RequestMethod.GET)
+    public AjaxJson getUserSubscribed(int ID)
+    {
+        List<IndividualUser> individualUsers=activityService.getUserSubscribed(ID);
+        if(individualUsers.size()==0)
+        {
+            return new AjaxJson(500,"数据库无此信息",null,0L);
+        }
+        else
+        {
+            return new AjaxJson(200,"查询成功",individualUsers,(long)individualUsers.size());
+        }
+    }
 }

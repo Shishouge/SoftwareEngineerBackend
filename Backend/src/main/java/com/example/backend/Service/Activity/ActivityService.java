@@ -1,6 +1,8 @@
 package com.example.backend.Service.Activity;
 
+import com.example.backend.Entity.Account.IndividualUser;
 import com.example.backend.Entity.Activity.Activity;
+import com.example.backend.Entity.Activity.EmotionAnalysis;
 import com.example.backend.Entity.Activity.ReviewActivity;
 
 import java.util.List;
@@ -31,5 +33,9 @@ public interface ActivityService {
     //取消报名活动
     public int cancleSignUp(String iID,int aID);
     //得到活动评价的情感分析
-    public String getEmotionalAnalysis(int ID);
+    public EmotionAnalysis getEmotionalAnalysis(int ID);
+    //删除活动
+    public int deleteActivity(int ID);
+    //得到某活动的报名者信息
+    public List<IndividualUser> getUserSubscribed(int ID);
 }

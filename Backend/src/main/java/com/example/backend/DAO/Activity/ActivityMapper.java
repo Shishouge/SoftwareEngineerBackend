@@ -1,6 +1,8 @@
 package com.example.backend.DAO.Activity;
 
+import com.example.backend.Entity.Account.IndividualUser;
 import com.example.backend.Entity.Activity.Activity;
+import com.example.backend.Entity.Activity.EmotionAnalysis;
 import com.example.backend.Entity.Activity.ReviewActivity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -47,4 +49,16 @@ public interface ActivityMapper {
     public int checkLike(String individualUserID,int activityID);
     //修改活动状态
     public int editStatus(int activityID,int toStatus);
+    //添加评论分析
+    public int addAnalysis(String path,int ID);
+    //添加词云图
+    public int addCloud(String path,int ID);
+    //删除活动
+    public int deleteActivity(int ID);
+    //获得情感分析的直方图和词云图
+    public EmotionAnalysis getIMGofActivity(int ID);
+    //获得某活动的报名者信息
+    public List<IndividualUser> getUserSubscribed(int ID);
+
+
 }

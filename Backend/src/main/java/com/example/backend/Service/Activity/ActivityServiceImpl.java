@@ -1,10 +1,15 @@
 package com.example.backend.Service.Activity;
 
+import com.example.backend.Controller.Activity.FileController;
 import com.example.backend.DAO.Account.IndividualUserMapper;
 import com.example.backend.DAO.Activity.ActivityMapper;
+import com.example.backend.Entity.Account.IndividualUser;
 import com.example.backend.Entity.Activity.Activity;
+import com.example.backend.Entity.Activity.EmotionAnalysis;
 import com.example.backend.Entity.Activity.ReviewActivity;
 import com.example.backend.Util.Recommend.RecommendHelper;
+import com.example.backend.Util.Response.AjaxJson;
+import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
@@ -114,44 +119,89 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public String getEmotionalAnalysis(int ID)
+    public int deleteActivity(int ID)
     {
-        List<ReviewActivity> reviewActivities=activityMapper.getReviewsByActivity(ID);
-        String filename="E:\\大三上\\软件工程\\data\\testData\\review.txt";
-        try {
-            File writeName = new File(filename);
-            writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
-            try (FileWriter writer = new FileWriter(writeName);
-                 BufferedWriter out = new BufferedWriter(writer)
-            ) {
-                for(ReviewActivity r:reviewActivities)
-                {
-                    String line2=r.getContent();
-                    out.write(line2+"\r\n"); // \r\n即为换行
-                }
-                out.flush(); // 把缓存区内容压入文件
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Process proc;
-        try {
-            proc = Runtime.getRuntime().exec("cmd /c python E:\\大三上\\软件工程\\课程项目\\代码\\train.py");// 执行py文件
-            //用输入输出流来截取结果
-            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-            in.close();
-            proc.waitFor();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return "E:\\大三上\\软件工程\\data\\testData\\output.png";
+        return activityMapper.deleteActivity(ID);
     }
+
+    @Override
+    public EmotionAnalysis getEmotionalAnalysis(int ID)
+    {
+        if(activityMapper.getLikeNum(ID).getSubscriberNum()/10==0)
+        {
+            List<ReviewActivity> reviewActivities=activityMapper.getReviewsByActivity(ID);
+            String filename="E:\\大三上\\软件工程\\data\\testData\\review.txt";
+            try {
+                File writeName = new File(filename);
+                writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
+                try (FileWriter writer = new FileWriter(writeName);
+                     BufferedWriter out = new BufferedWriter(writer)
+                ) {
+                    for(ReviewActivity r:reviewActivities)
+                    {
+                        String line2=r.getContent();
+                        out.write(line2+"\r\n"); // \r\n即为换行
+                    }
+                    out.flush(); // 把缓存区内容压入文件
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String[] cmds = new String[]{"python", "E:\\大三上\\软件工程\\课程项目\\代码\\train.py",String.valueOf(ID)};
+            Process proc;
+            String outPutName="E:\\大三上\\软件工程\\data\\testData\\"+String.valueOf(ID)+".png";
+            String cloudName="E:\\大三上\\软件工程\\data\\testData\\"+String.valueOf(ID)+"_cloud.png";
+            try {
+                proc = Runtime.getRuntime().exec(cmds);// 执行py文件
+                //用输入输出流来截取结果
+                BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                String line = null;
+                while ((line = in.readLine()) != null) {
+                    System.out.println(line);
+                }
+                in.close();
+                proc.waitFor();
+
+                File pdfFile = new File(outPutName);
+                File cloud = new File(cloudName);
+                try{
+                    FileInputStream fileInputStream = new FileInputStream(pdfFile);
+                    MultipartFile multipartFile = new MockMultipartFile(pdfFile.getName(), pdfFile.getName(),
+                            ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream);
+
+                    FileInputStream fileInputStream1 = new FileInputStream(cloud);
+                    MultipartFile multipartFile1 = new MockMultipartFile(cloud.getName(), cloud.getName(),
+                            ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream1);
+
+                    FileController fileController=new FileController();
+                    AjaxJson path=fileController.addFile("/analysis/",multipartFile);
+                    AjaxJson path1=fileController.addFile("/analysis/",multipartFile1);
+                } catch (java.io.IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            activityMapper.addAnalysis("http://101.132.138.14/files/analysis/"+String.valueOf(ID)+".png",ID);
+            activityMapper.addCloud("http://101.132.138.14/files/analysis/"+String.valueOf(ID)+"_cloud.png",ID);
+            EmotionAnalysis emotionAnalysis=new EmotionAnalysis("http://101.132.138.14/files/analysis/"+String.valueOf(ID)+".png","http://101.132.138.14/files/analysis/"+String.valueOf(ID)+"_cloud.png");
+            return emotionAnalysis;
+        }
+        else
+        {
+            EmotionAnalysis emotionAnalysis=activityMapper.getIMGofActivity(ID);
+            return emotionAnalysis;
+        }
+
+    }
+    @Override
+    public List<IndividualUser> getUserSubscribed(int ID)
+    {
+        return activityMapper.getUserSubscribed(ID);
+    }
+
     @Override
     public List<Activity> getRecommendActivity(String ID) {
         List<String> PLACE_LABEL = activityMapper.getAllPlaces();

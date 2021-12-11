@@ -159,4 +159,35 @@
         where ID=#{activityID};
     </update>
 
+    <update id="addAnalysis">
+        update activity
+        set EMO_ANALYSIS=#{path}
+        where ID=#{ID};
+    </update>
+
+    <update id="addCloud">
+        update activity
+        set CLOUD=#{path}
+        where ID=#{ID};
+    </update>
+
+    <delete id="deleteActivity">
+        delete
+        from activity
+        where ID=#{ID};
+    </delete>
+
+    <select id="getIMGofActivity" resultType="com.example.backend.Entity.Activity.EmotionAnalysis">
+        select EMO_ANALYSIS,CLOUD
+        from activity
+        where ID=#{ID};
+    </select>
+
+    <select id="getUserSubscribed" resultType="com.example.backend.Entity.Account.IndividualUser">
+        select individual_user.ID,individual_user.USER_NAME,individual_user.INTRODUCTION,individual_user.AVATOR,individual_user.STATUS
+        from sign_up_form,individual_user
+        where sign_up_form.ACTIVITY_ID=#{ID}
+        and sign_up_form.INDIVIDUAL_USER_ID=individual_user.ID;
+    </select>
+
 </mapper>
