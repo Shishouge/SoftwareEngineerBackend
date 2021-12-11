@@ -262,18 +262,18 @@ public class ActivityController {
     @RequestMapping(value = "/getEmotionalAnalysis",method = RequestMethod.GET)
     public AjaxJson getEmotionalAnalysis(int ID)
     {
-        Object path=new Object();
         File pdfFile = new File("E:\\大三上\\软件工程\\data\\testData\\output.png");
         try{
             FileInputStream fileInputStream = new FileInputStream(pdfFile);
             MultipartFile multipartFile = new MockMultipartFile(pdfFile.getName(), pdfFile.getName(),
                     ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream);
             FileController fileController=new FileController();
-            path=fileController.addFile(001,001,"/analysis/",multipartFile);
+            AjaxJson path=fileController.addFile("/analysis/",multipartFile);
+            return path;
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
-        return new AjaxJson(200,"得到",path,1L);
+        return new AjaxJson(500,"错误",null,0L);
     }
 
 }

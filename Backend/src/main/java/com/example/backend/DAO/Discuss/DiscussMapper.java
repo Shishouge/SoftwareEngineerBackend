@@ -20,4 +20,5 @@ public interface DiscussMapper {
     public List<QuestionWithFollowNumAndLikeNum> checkFocusQuestion(String userId, int questionId);
     public int addFocusQuestion(String userId, int questionId);
     public int deleteFocusQuestion(String userId, int questionId);
+
 }
