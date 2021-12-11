@@ -1,9 +1,7 @@
 package com.example.backend.DAO.Discuss;
 
 
-import com.example.backend.Entity.Discuss.AnswerWithUserInfo;
-import com.example.backend.Entity.Discuss.QuestionWithFollowNumAndLikeNum;
-import com.example.backend.Entity.Discuss.QuestionWithFollowNumAndLikeNumAndAvatar;
+import com.example.backend.Entity.Discuss.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -21,4 +19,7 @@ public interface DiscussMapper {
     public int addFocusQuestion(String userId, int questionId);
     public int deleteFocusQuestion(String userId, int questionId);
 
+    public List<Comment> getAllCommentByAnswerId(int answerId);
+
+    public AnswerWithInfoAndComment getQuestionByQuestionIdAndAnswerId(int questionId, int answerId);
 }

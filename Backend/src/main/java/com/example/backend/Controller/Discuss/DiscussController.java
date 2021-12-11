@@ -55,4 +55,10 @@ public class DiscussController {
         return discussService.takeAntiFocusQuestion(userId,questionId);
     }
 
+    @ApiOperation("根据问题的ID和回答的得到所有的评论")
+    @GetMapping("getAllCommentByQuestionIdAndAnswerId")
+    public AjaxJson getAllCommentByQuestionIdAndAnswerId(int questionId,int answerId)
+    {
+        return discussService.getAllCommentByQuestionIdAndAnswerId(questionId,answerId);
+    }
 }

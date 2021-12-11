@@ -14,4 +14,5 @@ public interface DiscussService {
 
      public AjaxJson takeAntiFocusQuestion(String userId, int questionId);
 
+     public AjaxJson getAllCommentByQuestionIdAndAnswerId(int questionId, int answerId);
 }

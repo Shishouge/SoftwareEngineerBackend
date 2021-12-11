@@ -72,4 +72,40 @@
     </select>
 
 
+    <resultMap id="MapComment" type="com.example.backend.Entity.Discuss.Comment">
+        <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+        <association property="info" javaType="Info">
+            <result property="id" column="ID" />
+            <result property="name" column="USER_NAME" />
+            <result property="pic" column="AVATOR" />
+            <result property="intro" column="INTRODUCTION" />
+        </association>
+    </resultMap>
+
+    <select id="getAllCommentByAnswerId" resultMap="MapComment">
+        select remark_answer.CONTENT,individual_user.ID,individual_user.USER_NAME,individual_user.AVATOR,individual_user.INTRODUCTION
+        from  individual_user,remark_answer
+        where remark_answer.ANSWER_ID = #{answerId} and remark_answer.INDIVIDUAL_USER_ID =individual_user.ID
+    </select>
+
+
+    <resultMap id="MapAnswerWithInfoAndComment" type="com.example.backend.Entity.Discuss.AnswerWithInfoAndComment">
+        <result column="ANSWER_CONTENT" jdbcType="VARCHAR" property="answer" />
+        <result column="QUESTION_CONTENT" jdbcType="VARCHAR" property="question" />
+        <result column="answer.TIME" jdbcType="VARCHAR" property="time" />
+        <association property="info" javaType="Info">
+            <result property="id" column="ID" />
+            <result property="name" column="USER_NAME" />
+            <result property="pic" column="AVATOR" />
+            <result property="intro" column="INTRODUCTION" />
+        </association>
+    </resultMap>
+
+    <select id="getQuestionByQuestionIdAndAnswerId" resultMap="MapAnswerWithInfoAndComment">
+        select answer.CONTENT AS ANSWER_CONTENT,question.CONTENT AS QUESTION_CONTENT,answer.TIME,individual_user.ID,individual_user.USER_NAME,individual_user.AVATOR,individual_user.INTRODUCTION
+        from  question,answer,individual_user
+        where answer.ID = #{answerId} and question.ID = #{questionId} and answer.QUESTION_ID = question.ID
+          and individual_user.ID = answer.INDIVIDUAL_USER_ID
+    </select>
+
 </mapper>
