@@ -232,5 +232,29 @@ public class DiscussServiceImpl implements DiscussService {
                 return new AjaxJson(200,"该评论已更新成功",1);
             }
         }
+        @Override
+        public AjaxJson giveLikeOrDislike(String userId, int answerId, int state)
+        {
+            if(discussMapper.giveLikeOrDislike(userId,answerId,state)==0)
+            {
+                throw  new IllegalStateException("未插入成功");
+            }
+            else
+            {
+                return new AjaxJson(200,"插入成功",1);
+            }
+        }
+        @Override
+        public AjaxJson deleteLikeOrDislike(String userId, int answerId)
+        {
+            if(discussMapper.deleteLikeOrDislike(userId,answerId)==0)
+            {
+                throw  new IllegalStateException("未删除成功");
+            }
+            else
+            {
+                return new AjaxJson(200,"删除成功",1);
+            }
+        }
 
 }

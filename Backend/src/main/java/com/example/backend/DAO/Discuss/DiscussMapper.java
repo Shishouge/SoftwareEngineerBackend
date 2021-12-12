@@ -42,4 +42,8 @@ public interface DiscussMapper {
     public int deleteComment(String userId, int answerId);
 
     public int updateComment(String userId, int answerId, String content);
+
+    public int giveLikeOrDislike(String userId, int answerId, int state);
+
+    public int deleteLikeOrDislike(String userId, int answerId);
 }
