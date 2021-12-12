@@ -59,6 +59,8 @@ public interface ActivityMapper {
     public EmotionAnalysis getIMGofActivity(int ID);
     //获得某活动的报名者信息
     public List<IndividualUser> getUserSubscribed(int ID);
+    //删除某活动的某评论
+    public int deleteReview(String iID,int aID);
 
 
 }

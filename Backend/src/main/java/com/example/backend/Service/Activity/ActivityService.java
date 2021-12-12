@@ -38,4 +38,6 @@ public interface ActivityService {
     public int deleteActivity(int ID);
     //得到某活动的报名者信息
     public List<IndividualUser> getUserSubscribed(int ID);
+    //删除某活动的评论
+    public int deleteReview(String iID,int aID);
 }

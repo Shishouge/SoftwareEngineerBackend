@@ -203,6 +203,12 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    public int deleteReview(String iID,int aID)
+    {
+        return activityMapper.deleteReview(iID, aID);
+    }
+
+    @Override
     public List<Activity> getRecommendActivity(String ID) {
         List<String> PLACE_LABEL = activityMapper.getAllPlaces();
         List<String> ORGANIZER_LABEL = activityMapper.getAllOrgs();

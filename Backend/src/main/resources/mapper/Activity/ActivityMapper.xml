@@ -190,4 +190,11 @@
         and sign_up_form.INDIVIDUAL_USER_ID=individual_user.ID;
     </select>
 
+    <delete id="deleteReview">
+        delete
+        from review_activity
+        where INDIVIDUAL_USER_ID=#{iID}
+        and ACTIVITY_ID=#{aID};
+    </delete>
+
 </mapper>
