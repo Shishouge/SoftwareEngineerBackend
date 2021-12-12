@@ -274,4 +274,19 @@ public class ActivityController {
             return new AjaxJson(200,"查询成功",individualUsers,(long)individualUsers.size());
         }
     }
+
+    @ApiOperation("删除某活动的评论信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "iID",value = "评论发布者ID"),
+            @ApiImplicitParam(name = "aID",value = "活动ID")
+    })
+    @RequestMapping(value = "/deleteReview",method = RequestMethod.POST)
+    public AjaxJson deleteReview(String iID,int aID)
+    {
+        int r=activityService.deleteReview(iID,aID);
+        if(r==0)
+            return new AjaxJson(500,"删除失败",null,0L);
+        else
+            return new AjaxJson(200,"删除成功",r,1L);
+    }
 }
