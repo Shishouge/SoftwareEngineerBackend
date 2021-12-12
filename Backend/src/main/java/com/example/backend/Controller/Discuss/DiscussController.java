@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @RestController
 @Api(tags="讨论控制板块")
 @RequestMapping("/discuss")
@@ -60,5 +64,80 @@ public class DiscussController {
     public AjaxJson getAllCommentByQuestionIdAndAnswerId(int questionId,int answerId)
     {
         return discussService.getAllCommentByQuestionIdAndAnswerId(questionId,answerId);
+    }
+
+    @ApiOperation("根据问题id得到问题的详细信息")
+    @GetMapping("getQuestionById")
+    public AjaxJson getQuestionById(int questionId)
+    {
+        return discussService.getQuestionById(questionId);
+    }
+
+
+    @ApiOperation("发布问题")
+    @PostMapping("addQuestion")
+    public AjaxJson publishQuestion(String userId,String title,String content)
+    {
+        return discussService.addQuestion(userId,title,content);
+    }
+
+    @ApiOperation("删除问题")
+    @PostMapping("deleteQuestion")
+    public AjaxJson deleteQuestion(int questionId)
+    {
+        return discussService.deleteQuestion(questionId);
+    }
+
+    @ApiOperation("更新问题")
+    @PostMapping("updateQuestion")
+    public AjaxJson updateQuestion(int questionId,String title,String content)
+    {
+        return discussService.updateQuestion(questionId,title,content);
+    }
+
+    @ApiOperation("发布回答")
+    @PostMapping("/addAnswer")
+    public AjaxJson addAnswer(String userId,int questionId,String content)
+    {
+        Timestamp date = new Timestamp(System.currentTimeMillis());
+        String time = date.toString();
+        return discussService.addAnswer(userId,questionId,content,time);
+    }
+
+    @ApiOperation("删除回答")
+    @PostMapping("deleteAnswer")
+    public AjaxJson deleteAnswer(int answerId)
+    {
+        return discussService.deleteAnswer(answerId);
+    }
+
+    @ApiOperation("更新回答")
+    @PostMapping("updateAnswer")
+    public AjaxJson updateAnswer(int answerId,String content)
+    {
+        Timestamp date = new Timestamp(System.currentTimeMillis());
+        String time = date.toString();
+        return discussService.updateAnswer(answerId,content,time);
+    }
+
+    @ApiOperation("发布评论")
+    @PostMapping("addComment")
+    public AjaxJson addComment(String userId,int answerId,String content)
+    {
+        return discussService.addComment(userId,answerId,content);
+    }
+
+    @ApiOperation("删除评论")
+    @PostMapping("deleteComment")
+    public AjaxJson deleteComment(String userId,int answerId)
+    {
+        return discussService.deleteComment(userId,answerId);
+    }
+
+    @ApiOperation("更新评论")
+    @PostMapping("updateComment")
+    public AjaxJson updateComment(String userId,int answerId,String content)
+    {
+        return discussService.updateComment(userId,answerId,content);
     }
 }

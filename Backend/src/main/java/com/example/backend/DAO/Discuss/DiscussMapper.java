@@ -22,4 +22,24 @@ public interface DiscussMapper {
     public List<Comment> getAllCommentByAnswerId(int answerId);
 
     public AnswerWithInfoAndComment getQuestionByQuestionIdAndAnswerId(int questionId, int answerId);
+
+    public int addQuestion(String userId, String title, String content);
+
+    public int deleteQuestion(int questionId);
+
+   public Question getQuestionById(int questionId);
+
+    public int updateQuestion(int questionId,String title,String content);
+
+    public int addAnswer(String userId, int questionId, String content, String time);
+
+    public int deleteAnswer(int answerId);
+
+    public int updateAnswer(int answerId, String content, String time);
+
+    public int addComment(String userId, int answerId, String content);
+
+    public int deleteComment(String userId, int answerId);
+
+    public int updateComment(String userId, int answerId, String content);
 }

@@ -104,4 +104,133 @@ public class DiscussServiceImpl implements DiscussService {
         }
     }
 
+    @Override
+    public AjaxJson addQuestion(String userId, String title, String content)
+    {
+        if(discussMapper.addQuestion(userId,title,content)==0)
+        {
+            throw  new IllegalStateException("未插入成功");
+        }
+        else
+        {
+            return new AjaxJson(200,"插入成功",1);
+        }
+    }
+
+    @Override
+    public AjaxJson deleteQuestion(int questionId)
+    {
+        if(discussMapper.deleteQuestion(questionId)==0)
+        {
+            throw  new IllegalStateException("未删除成功");
+        }
+        else
+        {
+            return new AjaxJson(200,"删除成功",1);
+        }
+    }
+
+    @Override
+    public AjaxJson getQuestionById(int questionId)
+    {
+        Question question=discussMapper.getQuestionById(questionId);
+        if(question!=null)
+        {
+            return new AjaxJson(200,"该问题存在",question);
+        }
+        else
+        {
+            return new AjaxJson(500,"该问题不存在",question);
+        }
+    }
+
+    @Override
+    public AjaxJson updateQuestion(int questionId,String title, String content)
+    {
+        if(discussMapper.updateQuestion(questionId,title,content) == 0)
+        {
+            throw  new IllegalStateException("该问题未更新");
+        }
+        else
+        {
+            return new AjaxJson(200,"该问题已更新成功",1);
+        }
+    }
+    @Override
+    public AjaxJson addAnswer(String userId, int questionId, String content, String time)
+    {
+
+        if(discussMapper.addAnswer(userId,questionId,content,time)==0)
+        {
+            throw  new IllegalStateException("未插入成功");
+        }
+        else
+        {
+            return new AjaxJson(200,"插入成功",1);
+        }
+    }
+
+    @Override
+    public AjaxJson deleteAnswer(int answerId)
+    {
+        if(discussMapper.deleteAnswer(answerId)==0)
+        {
+            throw  new IllegalStateException("未删除成功");
+        }
+        else
+        {
+            return new AjaxJson(200,"删除成功",1);
+        }
+    }
+
+    @Override
+    public AjaxJson updateAnswer(int answerId, String content, String time)
+    {
+        if(discussMapper.updateAnswer(answerId,content,time) == 0)
+        {
+            throw  new IllegalStateException("该回答未更新");
+        }
+        else
+        {
+            return new AjaxJson(200,"该回答已更新成功",1);
+        }
+    }
+        @Override
+        public AjaxJson addComment(String userId, int answerId, String content)
+        {
+            if(discussMapper.addComment(userId,answerId,content)==0)
+            {
+                throw  new IllegalStateException("未插入成功");
+            }
+            else
+            {
+                return new AjaxJson(200,"插入成功",1);
+            }
+        }
+
+        @Override
+        public AjaxJson deleteComment(String userId, int answerId)
+        {
+            if(discussMapper.deleteComment(userId,answerId)==0)
+            {
+                throw  new IllegalStateException("未删除成功");
+            }
+            else
+            {
+                return new AjaxJson(200,"删除成功",1);
+            }
+        }
+        @Override
+        public AjaxJson updateComment(String userId, int answerId, String content)
+        {
+            if(discussMapper.updateComment(userId,answerId,content) == 0)
+            {
+                throw  new IllegalStateException("该评论未更新");
+            }
+            else
+            {
+                return new AjaxJson(200,"该评论已更新成功",1);
+            }
+        }
+
 }
