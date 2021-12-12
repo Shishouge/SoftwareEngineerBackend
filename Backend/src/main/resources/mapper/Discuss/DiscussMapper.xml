@@ -30,10 +30,10 @@
         values (#{userId},#{questionId});
     </insert>
 
-    <insert id="deleteFocusQuestion">
+    <delete id="deleteFocusQuestion">
         delete from focus_question
         where INDIVIDUAL_USER_ID = #{userId} and QUESTION_ID = #{questionId}
-    </insert>
+    </delete>
 
 
 
@@ -92,7 +92,7 @@
     <resultMap id="MapAnswerWithInfoAndComment" type="com.example.backend.Entity.Discuss.AnswerWithInfoAndComment">
         <result column="ANSWER_CONTENT" jdbcType="VARCHAR" property="answer" />
         <result column="QUESTION_CONTENT" jdbcType="VARCHAR" property="question" />
-        <result column="answer.TIME" jdbcType="VARCHAR" property="time" />
+        <result column="TIME" jdbcType="DATE" property="time" />
         <association property="info" javaType="Info">
             <result property="id" column="ID" />
             <result property="name" column="USER_NAME" />
@@ -107,5 +107,59 @@
         where answer.ID = #{answerId} and question.ID = #{questionId} and answer.QUESTION_ID = question.ID
           and individual_user.ID = answer.INDIVIDUAL_USER_ID
     </select>
+
+    <select id="getQuestionById" resultType="com.example.backend.Entity.Discuss.Question">
+        select ID ,TITLE as title,CONTENT as content,INDIVIDUAL_USER_ID as IndividualUserId
+        from question
+        where ID = #{questionId}
+    </select>
+
+    <insert id="addQuestion">
+        insert into question (TITLE,CONTENT,INDIVIDUAL_USER_ID)
+        values (#{title},#{content},#{userId});
+    </insert>
+
+    <delete id="deleteQuestion">
+        delete from question
+        where ID = #{questionId}
+    </delete>
+
+    <update id="updateQuestion">
+        update question
+        set TITLE= #{title},CONTENT= #{content}
+        where ID= #{questionId}
+    </update>
+
+    <insert id="addAnswer">
+        insert into answer (INDIVIDUAL_USER_ID,QUESTION_ID,CONTENT,TIME)
+        values (#{userId},#{questionId},#{content},#{time});
+    </insert>
+
+    <delete id="deleteAnswer">
+       delete from answer
+       where  ID = #{answerId}
+    </delete>
+
+    <update id="updateAnswer">
+        update answer
+        set CONTENT = #{content},TIME = #{time}
+        where ID = #{answerId}
+    </update>
+
+    <insert id="addComment">
+        insert into remark_answer(INDIVIDUAL_USER_ID,ANSWER_ID,CONTENT)
+        values (#{userId},#{answerId},#{content})
+    </insert>
+
+    <delete id="deleteComment">
+        delete  from remark_answer
+        where INDIVIDUAL_USER_ID = #{userId} and ANSWER_ID = #{answerId}
+    </delete>
+
+    <update id="updateComment">
+        update remark_answer
+        set CONTENT = #{content}
+        where INDIVIDUAL_USER_ID = #{userId} and ANSWER_ID = #{answerId}
+    </update>
 
 </mapper>
