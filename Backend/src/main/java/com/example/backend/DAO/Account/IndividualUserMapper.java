@@ -3,6 +3,7 @@ package com.example.backend.DAO.Account;
 import com.example.backend.Entity.Account.IndividualUser;
 import com.example.backend.Entity.Activity.Activity;
 import com.example.backend.Entity.Discuss.Question;
+import com.example.backend.Entity.Discuss.QuestionHelper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface IndividualUserMapper {
     //返回该用户发布过的问题
     List<Question> getMyQuestions(String ID);
     //返回该用户关注的问题
-    List<Question> getMyFocusQuestions(String ID);
+    List<QuestionHelper> getMyFocusQuestions(String ID);
     //返回该用户已报名的活动
     List<Activity> getMySignUpActivities(String ID);
     //举报用户

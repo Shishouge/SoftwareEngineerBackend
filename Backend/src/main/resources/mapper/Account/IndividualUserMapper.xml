@@ -61,10 +61,18 @@
         where INDIVIDUAL_USER_ID=#{ID};
     </select>
 
-    <select id="getMyFocusQuestions" resultType="com.example.backend.Entity.Discuss.Question">
-        select question.ID,question.INDIVIDUAL_USER_ID,question.TITLE,question.CONTENT
-        from focus_question,question
+<!--    private String individualUserID;-->
+<!--    private String USER_NAME;-->
+<!--    private String INTRODUCTION;-->
+<!--    private String AVATOR;-->
+<!--    private int question_ID;-->
+<!--    private String title;-->
+<!--    private String content;-->
+    <select id="getMyFocusQuestions" resultType="com.example.backend.Entity.Discuss.QuestionHelper">
+        select question.INDIVIDUAL_USER_ID,individual_user.USER_NAME,individual_user.INTRODUCTION,individual_user.AVATOR,question.ID,question.TITLE,question.CONTENT
+        from focus_question,question,individual_user
         where focus_question.INDIVIDUAL_USER_ID=#{ID}
+        and individual_user.ID=question.INDIVIDUAL_USER_ID
         and focus_question.QUESTION_ID=question.ID;
     </select>
 

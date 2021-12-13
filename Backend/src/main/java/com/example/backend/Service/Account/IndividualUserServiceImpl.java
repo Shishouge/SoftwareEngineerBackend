@@ -5,6 +5,7 @@ import com.example.backend.Entity.Account.IndividualUser;
 import com.example.backend.Entity.Account.User;
 import com.example.backend.Entity.Activity.Activity;
 import com.example.backend.Entity.Discuss.Question;
+import com.example.backend.Entity.Discuss.QuestionHelper;
 import com.example.backend.Util.Token.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -98,9 +99,9 @@ public class IndividualUserServiceImpl implements IndividualUserService{
     }
 
     @Override
-    public List<Question> getMyFocusQuestion(String ID)
+    public List<QuestionHelper> getMyFocusQuestion(String ID)
     {
-        List<Question> questionList=individualUserMapper.getMyFocusQuestions(ID);
+        List<QuestionHelper> questionList=individualUserMapper.getMyFocusQuestions(ID);
         return questionList;
     }
 

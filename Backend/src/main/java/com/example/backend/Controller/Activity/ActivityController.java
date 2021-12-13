@@ -66,7 +66,7 @@ public class ActivityController {
         Activity a=activityMapper.getLikeNum(ID);
         ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getActivityIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getOrganizerIntro(),a.getAvator(),a.getOrganizerStatus()));
         if(a==null)
-            return new AjaxJson(500,"数据库不存在该信息",null,0L);
+            return new AjaxJson(500,"数据库不存在该信息",1,0L);
         else
             return new AjaxJson(200,"查询成功",helper,1L);
     }
@@ -80,7 +80,7 @@ public class ActivityController {
     {
         List<ReviewActivity> reviewActivities=activityService.getReviewsByActivity(ID);
         if(reviewActivities.size()==0)
-            return new AjaxJson(500,"数据库不存在该信息",null,0L);
+            return new AjaxJson(500,"数据库不存在该信息",1,0L);
         else
             return new AjaxJson(200,"查询成功",reviewActivities,(long)reviewActivities.size());
     }
@@ -106,7 +106,7 @@ public class ActivityController {
     {
         int result=activityService.updateActivity(ID,title,img,organizationID,date,place,form,introduction,content,genres,capacity,status);
         if(result==0)
-            return new AjaxJson(500,"修改失败",null,0L);
+            return new AjaxJson(500,"修改失败",1,0L);
         else
             return new AjaxJson(200,"修改成功",result,1L);
     }
@@ -121,7 +121,7 @@ public class ActivityController {
     {
         int result=activityService.likeActivity(individualUserID,activityID);
         if(result==0)
-            return new AjaxJson(500,"插入失败",null,0L);
+            return new AjaxJson(500,"插入失败",1,0L);
         else
             return new AjaxJson(200,"插入成功",result,1L);
     }
@@ -136,7 +136,7 @@ public class ActivityController {
     {
         int result=activityService.unlike(individualUserID,activityID);
         if(result==0)
-            return new AjaxJson(500,"取消失败",null,0L);
+            return new AjaxJson(500,"取消失败",1,0L);
         else
             return new AjaxJson(200,"取消成功",result,1L);
     }
@@ -153,7 +153,7 @@ public class ActivityController {
     {
         int result=activityService.review(individualUserID,activityID,content,score);
         if(result==0)
-            return new AjaxJson(500,"该用户还未报名活动，无法评论",null,0L);
+            return new AjaxJson(500,"该用户还未报名活动，无法评论",1,0L);
         else
             return new AjaxJson(200,"评论成功",result,1L);
     }
@@ -168,7 +168,7 @@ public class ActivityController {
     {
         int result=activityService.signUpActivity(individualUserID, activityID);
         if(result==0)
-            return new AjaxJson(500,"插入失败",null,0L);
+            return new AjaxJson(500,"插入失败",1,0L);
         else
             return new AjaxJson(200,"插入成功",result,1L);
     }
@@ -189,7 +189,7 @@ public class ActivityController {
             helpers.add(helper);
         }
         if(activities.size()==0)
-            return new AjaxJson(500,"数据库不存在该信息",null,0L);
+            return new AjaxJson(500,"数据库不存在该信息",1,0L);
         else
             return new AjaxJson(200,"查询成功",helpers,(long)helpers.size());
     }
@@ -267,7 +267,7 @@ public class ActivityController {
         List<IndividualUser> individualUsers=activityService.getUserSubscribed(ID);
         if(individualUsers.size()==0)
         {
-            return new AjaxJson(500,"数据库无此信息",null,0L);
+            return new AjaxJson(500,"数据库无此信息",1,0L);
         }
         else
         {
@@ -285,7 +285,7 @@ public class ActivityController {
     {
         int r=activityService.deleteReview(iID,aID);
         if(r==0)
-            return new AjaxJson(500,"删除失败",null,0L);
+            return new AjaxJson(500,"删除失败",1,0L);
         else
             return new AjaxJson(200,"删除成功",r,1L);
     }

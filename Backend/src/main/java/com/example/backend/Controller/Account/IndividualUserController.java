@@ -2,9 +2,12 @@ package com.example.backend.Controller.Account;
 
 import com.example.backend.DAO.Account.IndividualUserMapper;
 import com.example.backend.Entity.Account.IndividualUser;
+import com.example.backend.Entity.Account.Organization;
 import com.example.backend.Entity.Account.User;
 import com.example.backend.Entity.Activity.Activity;
+import com.example.backend.Entity.Activity.ActivityHelper;
 import com.example.backend.Entity.Discuss.Question;
+import com.example.backend.Entity.Discuss.QuestionHelper;
 import com.example.backend.Service.Account.IndividualUserService;
 import com.example.backend.Util.Response.AjaxJson;
 import com.example.backend.Util.Response.ResponseCode;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -132,7 +136,7 @@ public class IndividualUserController {
     @RequestMapping(value ="/getMyFocusQuestions",method = RequestMethod.GET)
     public AjaxJson getMyFocusQuestions(String ID)
     {
-        List<Question> questionList=individualUserService.getMyFocusQuestion(ID);
+        List<QuestionHelper> questionList=individualUserService.getMyFocusQuestion(ID);
         if(questionList.size()==0)
             return new AjaxJson(500,"数据库不存在有关信息",null,0L);
         else
@@ -147,10 +151,17 @@ public class IndividualUserController {
     public AjaxJson getMyActivities(String email)
     {
         List<Activity> activities=individualUserService.getMyActivities(email);
+        List<ActivityHelper> helpers=new ArrayList<>();
+        for(int i=0;i<activities.size();i++)
+        {
+            Activity a=activities.get(i);
+            ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getActivityIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getOrganizerIntro(),a.getAvator(),a.getOrganizerStatus()));
+            helpers.add(helper);
+        }
         if(activities.size()==0)
-            return new AjaxJson(500,"数据库不存在有关信息",null,0L);
+            return new AjaxJson(500,"数据库不存在该信息",null,0L);
         else
-            return new AjaxJson(200,"查询成功",activities,(long)activities.size());
+            return new AjaxJson(200,"查询成功",helpers,(long)helpers.size());
     }
 
     @ApiOperation("举报")

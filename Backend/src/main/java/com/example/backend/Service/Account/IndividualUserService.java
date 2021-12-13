@@ -4,6 +4,7 @@ import com.example.backend.Entity.Account.IndividualUser;
 import com.example.backend.Entity.Account.User;
 import com.example.backend.Entity.Activity.Activity;
 import com.example.backend.Entity.Discuss.Question;
+import com.example.backend.Entity.Discuss.QuestionHelper;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -22,7 +23,7 @@ public interface IndividualUserService {
     //返回某人发布的问题
     public List<Question> getMyQuestions(String ID);
     //返回某人关注的问题
-    public List<Question> getMyFocusQuestion(String ID);
+    public List<QuestionHelper> getMyFocusQuestion(String ID);
     //返回某人报名了的活动
     public List<Activity> getMyActivities(String id);
     //举报用户

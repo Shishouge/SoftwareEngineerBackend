@@ -97,7 +97,7 @@ public class DiscussServiceImpl implements DiscussService {
         answerWithInfoAndComment.setComment(list);
         if(list.isEmpty())
         {
-            return new AjaxJson(500,"该问题没有评论",answerWithInfoAndComment);
+            return new AjaxJson(200,"该问题没有评论",answerWithInfoAndComment);
         }
         else {
             return new AjaxJson(200, "该问题有评论", answerWithInfoAndComment);

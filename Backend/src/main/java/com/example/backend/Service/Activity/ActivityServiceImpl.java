@@ -127,7 +127,10 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public EmotionAnalysis getEmotionalAnalysis(int ID)
     {
-        if(activityMapper.getLikeNum(ID).getSubscriberNum()/10==0)
+        List<ReviewActivity> reviewActivities1=activityMapper.getReviewsByActivity(ID);
+        int size=reviewActivities1.size();
+        System.out.println(size);
+        if(size%10==0)
         {
             List<ReviewActivity> reviewActivities=activityMapper.getReviewsByActivity(ID);
             String filename="E:\\大三上\\软件工程\\data\\testData\\review.txt";
