@@ -140,4 +140,18 @@ public class DiscussController {
     {
         return discussService.updateComment(userId,answerId,content);
     }
+
+    @ApiOperation("点赞/点踩")
+    @PostMapping("giveLikeOrDislike")
+    public AjaxJson giveLikeOrDislike(String userId,int answerId,int state)
+    {
+        return discussService.giveLikeOrDislike(userId,answerId,state);
+    }
+
+    @ApiOperation("取消点赞/点踩")
+    @PostMapping("deleteLikeOrDislike")
+    public AjaxJson deleteLikeOrDislike(String userId,int answerId)
+    {
+        return discussService.deleteLikeOrDislike(userId,answerId);
+    }
 }

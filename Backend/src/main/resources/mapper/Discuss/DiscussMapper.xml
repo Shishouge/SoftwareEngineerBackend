@@ -162,4 +162,13 @@
         where INDIVIDUAL_USER_ID = #{userId} and ANSWER_ID = #{answerId}
     </update>
 
+    <insert id="giveLikeOrDislike">
+        insert into review_answer(ANSWER_ID,REVIEWER_ID,STATE)
+        values (#{answerId},#{userId},#{state})
+    </insert>
+
+    <delete id="deleteLikeOrDislike">
+        delete from review_answer
+        where ANSWER_ID = #{answerId} and REVIEWER_ID = #{userId}
+    </delete>
 </mapper>

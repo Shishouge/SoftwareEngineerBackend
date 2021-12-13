@@ -35,4 +35,8 @@ public interface DiscussService {
      public AjaxJson deleteComment(String userId, int answerId);
 
      public AjaxJson updateComment(String userId, int answerId, String content);
+
+     public AjaxJson giveLikeOrDislike(String userId, int answerId, int state);
+
+     public AjaxJson deleteLikeOrDislike(String userId, int answerId);
 }
