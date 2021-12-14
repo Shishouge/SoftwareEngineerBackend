@@ -80,7 +80,7 @@ public class ActivityController {
     {
         List<ReviewActivity> reviewActivities=activityService.getReviewsByActivity(ID);
         if(reviewActivities.size()==0)
-            return new AjaxJson(500,"数据库不存在该信息",1,0L);
+            return new AjaxJson(200,"数据库不存在该信息",reviewActivities,0L);
         else
             return new AjaxJson(200,"查询成功",reviewActivities,(long)reviewActivities.size());
     }

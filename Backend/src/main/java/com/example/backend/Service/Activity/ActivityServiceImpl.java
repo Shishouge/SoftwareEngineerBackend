@@ -129,11 +129,11 @@ public class ActivityServiceImpl implements ActivityService {
     {
         List<ReviewActivity> reviewActivities1=activityMapper.getReviewsByActivity(ID);
         int size=reviewActivities1.size();
-        System.out.println(size);
-        if(size%10==0)
+        if(size%10==0&&size>=10)
         {
             List<ReviewActivity> reviewActivities=activityMapper.getReviewsByActivity(ID);
-            String filename="E:\\大三上\\软件工程\\data\\testData\\review.txt";
+//            String filename="E:\\大三上\\软件工程\\data\\testData\\review.txt";
+            String filename="src//python//testdata//review.txt";
             try {
                 File writeName = new File(filename);
                 writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
@@ -150,10 +150,10 @@ public class ActivityServiceImpl implements ActivityService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String[] cmds = new String[]{"python", "E:\\大三上\\软件工程\\课程项目\\代码\\train.py",String.valueOf(ID)};
+            String[] cmds = new String[]{"python", "src//python//train.py",String.valueOf(ID)};
             Process proc;
-            String outPutName="E:\\大三上\\软件工程\\data\\testData\\"+String.valueOf(ID)+".png";
-            String cloudName="E:\\大三上\\软件工程\\data\\testData\\"+String.valueOf(ID)+"_cloud.png";
+            String outPutName="src//python//testdata//"+String.valueOf(ID)+".png";
+            String cloudName="src//python//testdata//"+String.valueOf(ID)+"_cloud.png";
             try {
                 proc = Runtime.getRuntime().exec(cmds);// 执行py文件
                 //用输入输出流来截取结果
@@ -192,12 +192,16 @@ public class ActivityServiceImpl implements ActivityService {
             EmotionAnalysis emotionAnalysis=new EmotionAnalysis("http://101.132.138.14/files/analysis/"+String.valueOf(ID)+".png","http://101.132.138.14/files/analysis/"+String.valueOf(ID)+"_cloud.png");
             return emotionAnalysis;
         }
-        else
+        else if(size>10)
         {
             EmotionAnalysis emotionAnalysis=activityMapper.getIMGofActivity(ID);
             return emotionAnalysis;
         }
-
+        else
+        {
+            EmotionAnalysis emotionAnalysis=new EmotionAnalysis("","");
+            return emotionAnalysis;
+        }
     }
     @Override
     public List<IndividualUser> getUserSubscribed(int ID)
