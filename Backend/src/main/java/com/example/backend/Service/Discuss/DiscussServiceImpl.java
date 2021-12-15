@@ -136,7 +136,7 @@ public class DiscussServiceImpl implements DiscussService {
         Question question=discussMapper.getQuestionById(questionId);
         if(question!=null)
         {
-            return new AjaxJson(200,"该问题存在",question);
+            return new AjaxJson(200,"该问题存在",question,1l);
         }
         else
         {
@@ -156,6 +156,7 @@ public class DiscussServiceImpl implements DiscussService {
             return new AjaxJson(200,"该问题已更新成功",1);
         }
     }
+
     @Override
     public AjaxJson addAnswer(String userId, int questionId, String content, String time)
     {
