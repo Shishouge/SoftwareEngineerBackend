@@ -91,7 +91,7 @@
 
     <resultMap id="MapAnswerWithInfoAndComment" type="com.example.backend.Entity.Discuss.AnswerWithInfoAndComment">
         <result column="ANSWER_CONTENT" jdbcType="VARCHAR" property="answer" />
-        <result column="QUESTION_CONTENT" jdbcType="VARCHAR" property="question" />
+        <result column="QUESTION_TITLE" jdbcType="VARCHAR" property="question" />
         <result column="TIME" jdbcType="DATE" property="time" />
         <association property="info" javaType="Info">
             <result property="id" column="ID" />
@@ -102,7 +102,7 @@
     </resultMap>
 
     <select id="getQuestionByQuestionIdAndAnswerId" resultMap="MapAnswerWithInfoAndComment">
-        select answer.CONTENT AS ANSWER_CONTENT,question.CONTENT AS QUESTION_CONTENT,answer.TIME,individual_user.ID,individual_user.USER_NAME,individual_user.AVATOR,individual_user.INTRODUCTION
+        select answer.CONTENT AS ANSWER_CONTENT,question.TITLE AS QUESTION_TITLE,answer.TIME,individual_user.ID,individual_user.USER_NAME,individual_user.AVATOR,individual_user.INTRODUCTION
         from  question,answer,individual_user
         where answer.ID = #{answerId} and question.ID = #{questionId} and answer.QUESTION_ID = question.ID
           and individual_user.ID = answer.INDIVIDUAL_USER_ID
