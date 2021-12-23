@@ -3,19 +3,26 @@ package com.example.backend.Controller.Test;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.alibaba.fastjson.JSONObject;
+import com.example.backend.Util.Email.VerifyEmailUtil;
+import com.example.backend.Util.Response.AjaxJson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @Api(tags="测试")
 @RequestMapping("/test")
 public class TestController {
 
-
+    @Autowired
+    VerifyEmailUtil verifyEmailUtil;
     @ApiOperation("登陆（使用的账号是10001）")
     @GetMapping("/doLogin")
     public SaResult doLogin() {
@@ -47,5 +54,19 @@ public class TestController {
         json.put("result", "提交成功！");
         return json;
     }
+
+    @PostMapping("/mail")
+    @ApiOperation("发送验证码到邮箱")
+    public AjaxJson sendVerifyCode(HttpServletRequest request, String email) {
+        return verifyEmailUtil.sendMail(request,email);
+    }
+
+    @GetMapping("/verify")
+    @ApiOperation("检验验证码")
+    public AjaxJson verify(String inputCode, HttpServletRequest request){
+        return verifyEmailUtil.checkCode(inputCode,request);
+    }
+
+
 
 }
