@@ -35,7 +35,7 @@
         SELECT ID,USER_NAME,AVATOR,INTRODUCTION,STATUS
         FROM individual_user
         WHERE ID=#{ID}
-          AND PASSWORD=#{password}
+        AND AES_DECRYPT(PASSWORD, 'key')=#{password}
     </select>
 
     <select id="getByEmail" resultType="com.example.backend.Entity.Account.IndividualUser">
@@ -46,7 +46,7 @@
 
     <insert id="insertUser">
         insert into individual_user (ID, USER_NAME, PASSWORD,STATUS)
-        values (#{ID},#{userName},#{password},#{status});
+        values (#{ID},#{userName},AES_ENCRYPT(#{password},'key'),#{status});
     </insert>
 
     <update id="editInformation">
@@ -89,4 +89,9 @@
         values (#{wID},#{rID},#{reason})
 
     </insert>
+
+    <update id="encode">
+        update organization
+        set PASSWORD= AES_ENCRYPT('12345678','key')
+    </update>
 </mapper>

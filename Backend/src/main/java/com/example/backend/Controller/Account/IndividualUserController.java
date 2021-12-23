@@ -32,6 +32,7 @@ import java.util.Random;
 public class IndividualUserController {
     @Autowired
     IndividualUserService individualUserService;
+    @Autowired
     IndividualUserMapper individualUserMapper;
     @ApiOperation("登录接口，传入邮箱和密码，返回true/false")
     @ApiImplicitParams({
@@ -178,5 +179,12 @@ public class IndividualUserController {
             return new AjaxJson(500,"插入失败",null,0L);
         else
             return new AjaxJson(200,"插入成功",r,1L);
+    }
+
+    @ApiOperation("加密")
+    @RequestMapping(value = "/encode", method = RequestMethod.GET)
+    public int encode()
+    {
+        return individualUserMapper.encode();
     }
 }

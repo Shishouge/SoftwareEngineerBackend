@@ -26,6 +26,8 @@ public interface IndividualUserMapper {
     List<Activity> getMySignUpActivities(String ID);
     //举报用户
     int reportUser(String wID,String rID,String reason);
+    //加密密码
+    int encode();
 
 
 }

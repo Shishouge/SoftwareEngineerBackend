@@ -26,7 +26,7 @@
 
     <insert id="insertOrganization">
         insert into organization (USERNAME, PASSWORD,INTRODUCTION,AVATOR,CERTIFICATION,STATUS)
-        values (#{userName},#{password},#{introduction},#{avator},#{certification},#{status});
+        values (#{userName},AES_ENCRYPT(#{password},'key'),#{introduction},#{avator},#{certification},#{status});
     </insert>
 
     <select id="getOrgByID" resultType="com.example.backend.Entity.Account.Organization">
@@ -45,7 +45,7 @@
         select ID,USERNAME,AVATOR,INTRODUCTION,STATUS
         from organization
         where ID=#{ID}
-        and PASSWORD=#{password};
+        and AES_DECRYPT(PASSWORD, 'key')=#{password}
     </select>
 
     <update id="editInformation">
