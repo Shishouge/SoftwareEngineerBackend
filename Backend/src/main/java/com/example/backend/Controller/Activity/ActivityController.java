@@ -17,10 +17,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.tomcat.util.http.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -31,6 +28,7 @@ import java.util.List;
 
 import static java.lang.Math.E;
 
+@CrossOrigin
 @RestController
 @Api(tags = "活动接口")
 public class ActivityController {
