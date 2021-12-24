@@ -9,6 +9,7 @@ import com.example.backend.Entity.Activity.ActivityHelper;
 import com.example.backend.Entity.Discuss.Question;
 import com.example.backend.Entity.Discuss.QuestionHelper;
 import com.example.backend.Service.Account.IndividualUserService;
+import com.example.backend.Util.Email.VerifyEmailUtil;
 import com.example.backend.Util.Response.AjaxJson;
 import com.example.backend.Util.Response.ResponseCode;
 import com.example.backend.Util.Response.ResponseResult;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,8 @@ public class IndividualUserController {
     IndividualUserService individualUserService;
     @Autowired
     IndividualUserMapper individualUserMapper;
+    @Autowired
+    VerifyEmailUtil verifyEmailUtil;
     @ApiOperation("登录接口，传入邮箱和密码，返回true/false")
     @ApiImplicitParams({
             @ApiImplicitParam(name="email",value = "用户邮箱",defaultValue = "11",required = true),
@@ -103,18 +107,26 @@ public class IndividualUserController {
     }
 
 
-    @ApiOperation("邮箱验证")
+    @ApiOperation("发送验证码")
     @RequestMapping(value = "/sendEmail",method={RequestMethod.POST})
-    public AjaxJson sendEmail(String to)
+    public AjaxJson sendEmail(HttpServletRequest request, String email)
     {
-        String checkCode = String.valueOf(new Random().nextInt(899999) + 100000);
-        try {
-            individualUserService.sendEmail(to,checkCode);
-        }catch (Exception e){
-            return new AjaxJson(500,"发送失败",null,0L);
-        }
-        return new AjaxJson(200,"发送成功",checkCode,1L);
+//        String checkCode = String.valueOf(new Random().nextInt(899999) + 100000);
+//        try {
+//            individualUserService.sendEmail(to,checkCode);
+//        }catch (Exception e){
+//            return new AjaxJson(500,"发送失败",null,0L);
+//        }
+//        return new AjaxJson(200,"发送成功",checkCode,1L);
+        return verifyEmailUtil.sendMail(request,email);
     }
+    @ApiOperation("验证验证码")
+    @RequestMapping(value = "/verifyCode",method={RequestMethod.GET})
+    public AjaxJson verifyCode(String inputCode, HttpServletRequest request)
+    {
+        return verifyEmailUtil.checkCode(inputCode,request);
+    }
+
 
     @ApiOperation("获得某人发布的问题")
     @ApiImplicitParams({
