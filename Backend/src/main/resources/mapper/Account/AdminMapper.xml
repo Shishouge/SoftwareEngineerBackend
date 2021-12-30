@@ -22,7 +22,7 @@
     </update>
 
     <select id="getApplications" resultType="com.example.backend.Entity.Account.Organization">
-        select ID,USERNAME,INTRODUCTION,AVATOR,STATUS,CERTIFICATION
+        select ID,USERNAME,INTRODUCTION,AVATOR,STATUS,CERTIFICATION,EMAIL
         from organization
         where STATUS=0
     </select>

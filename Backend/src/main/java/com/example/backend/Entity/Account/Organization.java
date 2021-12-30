@@ -7,6 +7,7 @@ public class Organization{
     private String AVATOR;
     private int STATUS;
     private String CERTIFICATION;
+    private String EMAIL;
 
 
     public Organization(int ID, String USERNAME, String INTRODUCTION, String AVATOR, int STATUS) {
@@ -24,6 +25,16 @@ public class Organization{
         this.AVATOR = AVATOR;
         this.STATUS = STATUS;
         this.CERTIFICATION = CERTIFICATION;
+    }
+
+    public Organization(int ID, String USERNAME, String INTRODUCTION, String AVATOR, int STATUS, String CERTIFICATION, String EMAIL) {
+        this.ID = ID;
+        this.USERNAME = USERNAME;
+        this.INTRODUCTION = INTRODUCTION;
+        this.AVATOR = AVATOR;
+        this.STATUS = STATUS;
+        this.CERTIFICATION = CERTIFICATION;
+        this.EMAIL = EMAIL;
     }
 
     public String getINTRODUCTION() {
@@ -72,5 +83,13 @@ public class Organization{
 
     public void setCERTIFICATION(String CERTIFICATION) {
         this.CERTIFICATION = CERTIFICATION;
+    }
+
+    public String getEMAIL() {
+        return EMAIL;
+    }
+
+    public void setEMAIL(String EMAIL) {
+        this.EMAIL = EMAIL;
     }
 }
