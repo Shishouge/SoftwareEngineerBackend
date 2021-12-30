@@ -21,9 +21,10 @@
         where ID=#{ID};
     </update>
 
-    <select id="getApplications" resultType="com.example.backend.Entity.Account.Application">
-        select *
-        from application
+    <select id="getApplications" resultType="com.example.backend.Entity.Account.Organization">
+        select ID,USERNAME,INTRODUCTION,AVATOR,STATUS,CERTIFICATION
+        from organization
+        where STATUS=0
     </select>
 
     <update id="updateOUserStatus">
@@ -31,5 +32,11 @@
         set STATUS=#{flag}
         where ID=#{ID};
     </update>
+
+    <select id="getEmailByOID" resultType="String">
+        select EMAIL
+        from organization
+        where ID=#{ID}
+    </select>
 
 </mapper>

@@ -61,6 +61,8 @@ public interface ActivityMapper {
     public List<IndividualUser> getUserSubscribed(int ID);
     //删除某活动的某评论
     public int deleteReview(String iID,int aID);
+    //筛选活动
+    public List<Activity> filterActivity(String genres,Integer isAbleToRe,String key);
 
 
 }

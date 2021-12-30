@@ -197,4 +197,26 @@
         and ACTIVITY_ID=#{aID};
     </delete>
 
+    <select id="filterActivity"  resultMap="mapActivity">
+        select activity.ID as aID,TITLE,IMG,organization.ID as oID,organization.USERNAME,organization.INTRODUCTION as oIN,organization.AVATOR,organization.STATUS,DATE,PLACE,FORM,activity.INTRODUCTION as aIN,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,activity.SUBSCRIBER_NUM
+        FROM activity,organization
+        <where>
+            activity.ORGANIZATION_ID=organization.ID
+<!--            <if test="true">-->
+<!--                AND -->
+<!--            </if>-->
+            <if test="genres != null">
+                AND GENRES like CONCAT('%',#{genres},'%')
+            </if>
+            <if test="isAbleToRe != null">
+                AND activity.STATUS = #{isAbleToRe}
+            </if>
+            <if test="key!=null">
+                AND
+                (TITLE like CONCAT('%',#{key},'%')
+                or CONTENT like CONCAT('%',#{key},'%'))
+            </if>
+        </where>
+    </select>
+
 </mapper>

@@ -287,4 +287,31 @@ public class ActivityController {
         else
             return new AjaxJson(200,"删除成功",r,1L);
     }
+
+    @ApiOperation("筛选活动")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="genres",value="活动类型"),
+            @ApiImplicitParam(name="status",value="是否在进行"),
+            @ApiImplicitParam(name="isAbleToRe",value="是否可报名"),
+            @ApiImplicitParam(name="key",value="搜索关键词")
+    })
+    @RequestMapping(value = "/filterActivity",method = RequestMethod.GET)
+    public AjaxJson filterActivity(String genres,String status,String isAbleToRe,String key)
+    {
+        Integer num=null;
+        if(isAbleToRe!=null)
+            num=1;
+        List<Activity> activities=activityService.filterActivity(genres,status,num,key);
+        List<ActivityHelper> helpers=new ArrayList<>();
+        for(int i=0;i<activities.size();i++)
+        {
+            Activity a=activities.get(i);
+            ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getActivityIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getOrganizerIntro(),a.getAvator(),a.getOrganizerStatus()));
+            helpers.add(helper);
+        }
+        if(activities.size()==0)
+            return new AjaxJson(200,"数据库不存在该信息",helpers,0L);
+        else
+            return new AjaxJson(200,"查询成功",helpers,(long)helpers.size());
+    }
 }

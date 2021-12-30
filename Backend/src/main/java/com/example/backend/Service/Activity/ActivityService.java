@@ -40,4 +40,6 @@ public interface ActivityService {
     public List<IndividualUser> getUserSubscribed(int ID);
     //删除某活动的评论
     public int deleteReview(String iID,int aID);
+    //筛选活动
+    public List<Activity> filterActivity(String genres,String status,Integer isAbleToRe,String key);
 }

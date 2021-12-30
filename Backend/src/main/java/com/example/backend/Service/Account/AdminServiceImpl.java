@@ -3,6 +3,7 @@ package com.example.backend.Service.Account;
 import com.example.backend.DAO.Account.AdminMapper;
 import com.example.backend.Entity.Account.Admin;
 import com.example.backend.Entity.Account.Application;
+import com.example.backend.Entity.Account.Organization;
 import com.example.backend.Entity.Discuss.Report;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,23 +28,30 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public int updateIUserStatus(String ID,boolean flag)
+    public int updateIUserStatus(String ID,int flag)
     {
         int update= adminMapper.updateIUserStatus(ID, flag);
         return update;
     }
 
     @Override
-    public List<Application> getApplications()
+    public List<Organization> getApplications()
     {
         return  adminMapper.getApplications();
     }
 
     @Override
-    public int updateOUserStatus(int ID,boolean flag)
+    public int updateOUserStatus(int ID,int flag)
     {
         int update= adminMapper.updateOUserStatus(ID, flag);
         return update;
+    }
+
+    @Override
+    public String getEmailByOID(int ID)
+    {
+        String result=adminMapper.getEmailByOID(ID);
+        return result;
     }
 
 }

@@ -6,6 +6,7 @@ public class Organization{
     private String INTRODUCTION;
     private String AVATOR;
     private int STATUS;
+    private String CERTIFICATION;
 
 
     public Organization(int ID, String USERNAME, String INTRODUCTION, String AVATOR, int STATUS) {
@@ -14,6 +15,15 @@ public class Organization{
         this.INTRODUCTION = INTRODUCTION;
         this.AVATOR = AVATOR;
         this.STATUS = STATUS;
+    }
+
+    public Organization(int ID, String USERNAME, String INTRODUCTION, String AVATOR, int STATUS, String CERTIFICATION) {
+        this.ID = ID;
+        this.USERNAME = USERNAME;
+        this.INTRODUCTION = INTRODUCTION;
+        this.AVATOR = AVATOR;
+        this.STATUS = STATUS;
+        this.CERTIFICATION = CERTIFICATION;
     }
 
     public String getINTRODUCTION() {
@@ -54,5 +64,13 @@ public class Organization{
 
     public void setAVATOR(String AVATOR) {
         this.AVATOR = AVATOR;
+    }
+
+    public String getCERTIFICATION() {
+        return CERTIFICATION;
+    }
+
+    public void setCERTIFICATION(String CERTIFICATION) {
+        this.CERTIFICATION = CERTIFICATION;
     }
 }

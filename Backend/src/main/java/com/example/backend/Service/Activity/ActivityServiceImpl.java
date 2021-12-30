@@ -15,8 +15,10 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -333,6 +335,139 @@ public class ActivityServiceImpl implements ActivityService {
             sortedActivity.add(a);
         }
         return sortedActivity;
+    }
+
+    @Override
+    public List<Activity> filterActivity(String genres,String status,Integer isAbleToRe,String key)
+    {
+        List<Activity> oldActivities=activityMapper.filterActivity(genres,isAbleToRe,key);
+        List<Activity> newActivities1=new ArrayList<>();
+        List<Activity> newActivities2=new ArrayList<>();
+        List<Activity> newActivities3=new ArrayList<>();
+        System.out.println(oldActivities.size());
+        if(status==null)
+        {
+            System.out.println("为空");
+            return oldActivities;
+        }
+
+        //2021-12-31 09:00-11:45
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String t=formatter.format(date);
+        String[] nowTime=t.split(" ");
+        String[] nowDate=nowTime[0].split("-"); //dd mm yyyy
+        String[] nowHour=nowTime[1].split(":");
+        System.out.println("个数"+oldActivities.size());
+        for(Activity activity:oldActivities)
+        {
+            if(activity.getForm().contains("短期"))
+            {
+                String a=activity.getDate();
+                String[] aTime=a.split(" ");
+                String[] aDate=aTime[0].split("-"); //2021 12 31
+                String[] aHour=aTime[1].split("-");  //09:00   11:45
+                String[] a1=aHour[0].split(":");//09 00
+                String[] a2=aHour[1].split(":");//11 45
+                if((Integer.parseInt(nowDate[2]) < Integer.parseInt(aDate[0])))
+                {
+                    newActivities1.add(activity);
+                    continue;
+                }
+                else if((Integer.parseInt(nowDate[2]) == Integer.parseInt(aDate[0])))
+                {
+                    if(Integer.parseInt(nowDate[1])<Integer.parseInt(aDate[1]))
+                    {
+                        newActivities1.add(activity);
+                        continue;
+                    }
+                    else if(Integer.parseInt(nowDate[1])==Integer.parseInt(aDate[1]))
+                    {
+                        if(Integer.parseInt(nowDate[0])<Integer.parseInt(aDate[2]))
+                        {
+                            newActivities1.add(activity);
+                            continue;
+                        }
+                        else if(Integer.parseInt(nowDate[0])==Integer.parseInt(aDate[2]))
+                        {
+                            newActivities2.add(activity);
+                            continue;
+                        }
+                        else
+                        {
+                            newActivities3.add(activity);
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        newActivities3.add(activity);
+                        continue;
+                    }
+                }
+                else
+                {
+                    newActivities3.add(activity);
+                    continue;
+                }
+            }
+            else
+            {
+                String a=activity.getDate(); //2021-12-28 至 2021-12-28
+                String[] aTime=a.split(" ");
+                String[] a1=aTime[0].split("-");  //2021 12 27
+                String[] a2=aTime[2].split("-");  //2021 12 31
+                if((Integer.parseInt(nowDate[2]) < Integer.parseInt(a1[0])))
+                {
+                    newActivities1.add(activity);
+                    continue;
+                }
+                else if((Integer.parseInt(nowDate[2]) >= Integer.parseInt(a1[0]))&&Integer.parseInt(nowDate[2])<=Integer.parseInt(a2[0]))
+                {
+                    if(Integer.parseInt(nowDate[1])<Integer.parseInt(a1[1]))
+                    {
+                        newActivities1.add(activity);
+                        continue;
+                    }
+                    else if((Integer.parseInt(nowDate[1]) >= Integer.parseInt(a1[1]))&&Integer.parseInt(nowDate[1])<=Integer.parseInt(a2[1]))
+                    {
+                        if(Integer.parseInt(nowDate[0])<Integer.parseInt(a1[2]))
+                        {
+                            newActivities1.add(activity);
+                            continue;
+                        }
+                        else if((Integer.parseInt(nowDate[0]) >= Integer.parseInt(a1[2]))&&Integer.parseInt(nowDate[0])<=Integer.parseInt(a2[2]))
+                        {
+                            newActivities2.add(activity);
+                            continue;
+                        }
+                        else if(Integer.parseInt(nowDate[0])>Integer.parseInt(a2[2]))
+                        {
+                            newActivities3.add(activity);
+                            continue;
+                        }
+                    }
+                    else if (Integer.parseInt(nowDate[1])>Integer.parseInt(a2[1]))
+                    {
+                        newActivities3.add(activity);
+                        continue;
+                    }
+                }
+                else if (Integer.parseInt(nowDate[2])>Integer.parseInt(a2[0]))
+                {
+                    newActivities3.add(activity);
+                    continue;
+                }
+
+            }
+
+        }
+        if(status.equals("未开始"))
+            return newActivities1;
+        else if(status.equals("进行中"))
+            return newActivities2;
+        else
+            return newActivities3;
     }
 
 
