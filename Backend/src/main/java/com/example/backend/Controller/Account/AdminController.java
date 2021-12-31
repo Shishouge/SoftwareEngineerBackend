@@ -121,6 +121,7 @@ public class AdminController {
             @ApiImplicitParam(name = "title",value = "邮件主题"),
             @ApiImplicitParam(name = "content",value = "内容")
     })
+
     @RequestMapping(name = "/sendEmailOFresult",method = RequestMethod.POST)
     public AjaxJson sendEmailOFresult(String to,String title,String content)
     {
