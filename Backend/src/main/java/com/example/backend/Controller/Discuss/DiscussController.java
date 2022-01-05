@@ -14,7 +14,7 @@ import java.util.Date;
 
 @CrossOrigin
 @RestController
-@Api(tags="讨论控制板块")
+@Api(tags="DiscussController")
 @RequestMapping("/discuss")
 public class DiscussController {
 

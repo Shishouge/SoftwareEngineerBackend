@@ -31,10 +31,8 @@ public interface ActivityMapper {
     public int checkSignUpSitua(String individualUserID,int activityID);
     //报名活动
     public int signUpActivity(String individualUserID,int activityID);
-
     //取消报名活动
     public int cancleSignUp(String individualUserID,int activityID);
-
     //返回某人没有报名过的活动
     public List<Activity> getNotSignUpActivity(String ID);
     //获取所有地点标签

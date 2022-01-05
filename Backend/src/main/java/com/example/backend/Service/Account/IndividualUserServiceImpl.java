@@ -113,8 +113,14 @@ public class IndividualUserServiceImpl implements IndividualUserService{
     }
 
     @Override
-    public int reportUser(String wID,String rID,String reason)
+    public int reportUser(String wID,String rID,String reason,String qID,String aID)
     {
-        return individualUserMapper.reportUser(wID, rID, reason);
+        return individualUserMapper.reportUser(wID, rID, reason,qID,aID);
+    }
+
+    @Override
+    public int editPassword(String ID,String password)
+    {
+        return individualUserMapper.editPassword(ID,password);
     }
 }

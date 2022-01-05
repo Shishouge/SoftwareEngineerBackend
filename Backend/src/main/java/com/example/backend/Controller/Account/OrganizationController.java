@@ -42,18 +42,22 @@ public class OrganizationController {
     {
         Organization check=organizationService.getOrgByID(ID);
         if(check==null)
-            return new AjaxJson(400,"该组织还未注册",null,0L);
+            return new AjaxJson(200,"该组织还未注册",null,0L);
         else
         {
             if(check.getSTATUS()==0)
             {
-                return new AjaxJson(500,"该组织还未通过审核",null,0L);
+                return new AjaxJson(200,"该组织还未通过审核",null,0L);
+            }
+            else if(check.getSTATUS()==-1)
+            {
+                return new AjaxJson(200,"该组织申请被拒绝",null,0L);
             }
             else
             {
                 Organization organization=organizationService.getByUserAndPassword(ID,password);
                 if(organization==null)
-                    return new AjaxJson(500,"密码错误",null,0L);
+                    return new AjaxJson(200,"密码错误",null,0L);
                 return new AjaxJson(200,"登录成功",organization,1L);
             }
 
@@ -69,20 +73,20 @@ public class OrganizationController {
             @ApiImplicitParam(name = "avator",value = "头像"),
             @ApiImplicitParam(name = "certification",value = "证明材料")
     })
-    @RequestMapping(value = "/signUp",method = RequestMethod.GET)
+    @RequestMapping(value = "/orgsignUp",method = RequestMethod.POST)
     public AjaxJson signUp(String userName,String password,String introduction,String avator,String certification)
     {
         Organization check=organizationService.getOrgByName(userName);
         int insert=-2;
         if(check!=null)
         {
-            return new AjaxJson(500,"该组织已经注册",null,0L);
+            return new AjaxJson(200,"该组织已经注册",null,0L);
         }
         else
         {
             insert=organizationService.insertOrganization(userName, password, introduction, avator, certification);
             if(insert==0)
-                return new AjaxJson(500,"注册失败",null,0L);
+                return new AjaxJson(200,"注册失败",null,0L);
             else
                 return new AjaxJson(200,"注册成功",insert,1L);
         }
@@ -103,7 +107,7 @@ public class OrganizationController {
             helpers.add(helper);
         }
         if(activities.size()==0)
-            return new AjaxJson(500,"数据库不存在该信息",null,0L);
+            return new AjaxJson(200,"数据库不存在该信息",null,0L);
         else
             return new AjaxJson(200,"查询成功",helpers,(long)helpers.size());
     }
@@ -127,7 +131,7 @@ public class OrganizationController {
     {
         int result=activityService.publishActivity(title,img,organizationID,date,place,form,introduction,content,genres,capacity,status);
         if(result==0)
-            return new AjaxJson(500,"插入失败",null,0L);
+            return new AjaxJson(200,"插入失败",null,0L);
         else
             return new AjaxJson(200,"插入成功",result,1L);
     }

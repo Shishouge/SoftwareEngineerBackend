@@ -6,6 +6,7 @@ public class IndividualUser {
     private String INTRODUCTION;
     private String AVATOR;
     private int STATUS;
+    private String token;
 
 
     public IndividualUser(String ID, String USER_NAME, String INTRODUCTION, String AVATOR, int STATUS) {
@@ -54,5 +55,13 @@ public class IndividualUser {
 
     public void setAVATOR(String AVATOR) {
         this.AVATOR = AVATOR;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
