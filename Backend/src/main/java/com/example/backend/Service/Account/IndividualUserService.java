@@ -27,5 +27,7 @@ public interface IndividualUserService {
     //返回某人报名了的活动
     public List<Activity> getMyActivities(String id);
     //举报用户
-    public int reportUser(String wID,String rID,String reason);
+    public int reportUser(String wID,String rID,String reason,String qID,String aID);
+    //修改密码
+    public int editPassword(String ID,String password);
 }

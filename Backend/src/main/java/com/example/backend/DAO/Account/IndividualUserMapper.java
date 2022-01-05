@@ -25,9 +25,11 @@ public interface IndividualUserMapper {
     //返回该用户已报名的活动
     List<Activity> getMySignUpActivities(String ID);
     //举报用户
-    int reportUser(String wID,String rID,String reason);
+    int reportUser(String wID,String rID,String reason,String qID,String aID);
     //加密密码
     int encode();
+    //修改密码
+    int editPassword(String ID,String password);
 
 
 }

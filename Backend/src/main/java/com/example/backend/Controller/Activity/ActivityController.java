@@ -1,5 +1,6 @@
 package com.example.backend.Controller.Activity;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.example.backend.DAO.Activity.ActivityMapper;
 import com.example.backend.Entity.Account.IndividualUser;
 import com.example.backend.Entity.Account.Organization;
@@ -30,7 +31,7 @@ import static java.lang.Math.E;
 
 @CrossOrigin
 @RestController
-@Api(tags = "活动接口")
+@Api(tags = "ActivityController")
 public class ActivityController {
 
     @Autowired
@@ -51,7 +52,7 @@ public class ActivityController {
             helpers.add(helper);
         }
         if(activities.size()==0)
-            return new AjaxJson(500,"数据库不存在该信息",null,0L);
+            return new AjaxJson(200,"数据库不存在该信息",null,0L);
         else
             return new AjaxJson(200,"查询成功",helpers,(long)helpers.size());
 
@@ -64,7 +65,7 @@ public class ActivityController {
         Activity a=activityMapper.getLikeNum(ID);
         ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getActivityIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getOrganizerIntro(),a.getAvator(),a.getOrganizerStatus()));
         if(a==null)
-            return new AjaxJson(500,"数据库不存在该信息",1,0L);
+            return new AjaxJson(200,"数据库不存在该信息",null,0L);
         else
             return new AjaxJson(200,"查询成功",helper,1L);
     }
@@ -104,7 +105,7 @@ public class ActivityController {
     {
         int result=activityService.updateActivity(ID,title,img,organizationID,date,place,form,introduction,content,genres,capacity,status);
         if(result==0)
-            return new AjaxJson(500,"修改失败",1,0L);
+            return new AjaxJson(200,"修改失败",result,0L);
         else
             return new AjaxJson(200,"修改成功",result,1L);
     }
@@ -119,7 +120,7 @@ public class ActivityController {
     {
         int result=activityService.likeActivity(individualUserID,activityID);
         if(result==0)
-            return new AjaxJson(500,"插入失败",1,0L);
+            return new AjaxJson(200,"插入失败",result,0L);
         else
             return new AjaxJson(200,"插入成功",result,1L);
     }
@@ -134,7 +135,7 @@ public class ActivityController {
     {
         int result=activityService.unlike(individualUserID,activityID);
         if(result==0)
-            return new AjaxJson(500,"取消失败",1,0L);
+            return new AjaxJson(200,"取消失败",result,0L);
         else
             return new AjaxJson(200,"取消成功",result,1L);
     }
@@ -151,7 +152,7 @@ public class ActivityController {
     {
         int result=activityService.review(individualUserID,activityID,content,score);
         if(result==0)
-            return new AjaxJson(500,"该用户还未报名活动，无法评论",1,0L);
+            return new AjaxJson(200,"该用户还未报名活动，无法评论",result,0L);
         else
             return new AjaxJson(200,"评论成功",result,1L);
     }
@@ -159,16 +160,24 @@ public class ActivityController {
     @ApiOperation(value = "报名活动")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "individualUserID",value = "报名者ID"),
-            @ApiImplicitParam(name = "activityID",value = "活动ID")
+            @ApiImplicitParam(name = "activityID",value = "活动ID"),
+            @ApiImplicitParam(name="token",value="验证")
     })
     @RequestMapping(value = "/signUpActivity",method = RequestMethod.POST)
-    public AjaxJson signUpActivity(String individualUserID,int activityID)
+    public AjaxJson signUpActivity(String individualUserID,int activityID,  String token)
     {
-        int result=activityService.signUpActivity(individualUserID, activityID);
-        if(result==0)
-            return new AjaxJson(500,"插入失败",1,0L);
-        else
-            return new AjaxJson(200,"插入成功",result,1L);
+        if(token.equals(StpUtil.getTokenValue()))
+        {
+            int result=activityService.signUpActivity(individualUserID, activityID);
+            if(result==0)
+                return new AjaxJson(200,"插入失败",result,0L);
+            else
+                return new AjaxJson(200,"插入成功",result,1L);
+        }
+        else {
+            return new AjaxJson(200,"未登录！",null,0L);
+        }
+
     }
 
     @ApiOperation(value = "获得推荐的活动")
@@ -187,7 +196,7 @@ public class ActivityController {
             helpers.add(helper);
         }
         if(activities.size()==0)
-            return new AjaxJson(500,"数据库不存在该信息",1,0L);
+            return new AjaxJson(200,"数据库不存在该信息",helpers,0L);
         else
             return new AjaxJson(200,"查询成功",helpers,(long)helpers.size());
     }
@@ -233,7 +242,7 @@ public class ActivityController {
         if(r==1)
             return new AjaxJson(200,"取消报名成功",r,0L);
         else
-            return new AjaxJson(500,"取消失败",r,1L);
+            return new AjaxJson(200,"取消失败",r,1L);
     }
 
     @ApiOperation("获取某活动评论的情感分析")
@@ -254,7 +263,7 @@ public class ActivityController {
         if(r==1)
             return new AjaxJson(200,"删除成功",r,1L);
         else
-            return new AjaxJson(500,"删除失败",r,0L);
+            return new AjaxJson(200,"删除失败",r,0L);
     }
 
     @ApiOperation("获得某活动的报名者信息")
@@ -265,7 +274,7 @@ public class ActivityController {
         List<IndividualUser> individualUsers=activityService.getUserSubscribed(ID);
         if(individualUsers.size()==0)
         {
-            return new AjaxJson(500,"数据库无此信息",1,0L);
+            return new AjaxJson(200,"数据库无此信息",individualUsers,0L);
         }
         else
         {
@@ -283,7 +292,7 @@ public class ActivityController {
     {
         int r=activityService.deleteReview(iID,aID);
         if(r==0)
-            return new AjaxJson(500,"删除失败",1,0L);
+            return new AjaxJson(200,"删除失败",r,0L);
         else
             return new AjaxJson(200,"删除成功",r,1L);
     }

@@ -1,5 +1,6 @@
 package com.example.backend.Controller.Account;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.example.backend.DAO.Account.IndividualUserMapper;
 import com.example.backend.Entity.Account.IndividualUser;
 import com.example.backend.Entity.Account.Organization;
@@ -46,18 +47,23 @@ public class IndividualUserController {
     {
         IndividualUser individualUser=individualUserService.getByEmail(email);
         if(individualUser==null)
-            return new AjaxJson(400,"该用户尚未注册",null,0L);
+            return new AjaxJson(200,"该用户尚未注册",null,0L);
         else
         {
             if(individualUser.getSTATUS()==0)
             {
-                return new AjaxJson(500,"该用户目前处于封禁状态",null,0L);
+                return new AjaxJson(200,"该用户目前处于封禁状态",null,0L);
             }
             IndividualUser result=individualUserService.loginByEmail(email,password);
             if(result==null)
-                return new AjaxJson(500,"密码错误",null,0L);
+                return new AjaxJson(200,"密码错误",null,0L);
             else
+            {
+                StpUtil.login(email);
+                result.setToken(StpUtil.getTokenValue());
                 return new AjaxJson(200,"登录成功",result,1L);
+            }
+
         }
 
     }
@@ -81,9 +87,9 @@ public class IndividualUserController {
         if(check==null&&insert==1)
             return new AjaxJson(200,"注册成功",insert,1L);
         else if(check!=null)
-            return new AjaxJson(500,"该账号已被注册",insert,0L);
+            return new AjaxJson(200,"该账号已被注册",insert,0L);
         else
-            return new AjaxJson(500,"数据库插入失败",insert,0L);
+            return new AjaxJson(200,"数据库插入失败",insert,0L);
     }
 
     @ApiOperation("修改个人信息")
@@ -99,7 +105,7 @@ public class IndividualUserController {
     {
         int update=individualUserService.editInformation(email,name,password,introduction,avator);
         if(update==0)
-            return new AjaxJson(500,"修改失败",update,0L);
+            return new AjaxJson(200,"修改失败",update,0L);
         else
             return new AjaxJson(200,"修改成功",update,1L);
     }
@@ -135,7 +141,7 @@ public class IndividualUserController {
     {
         List<Question> questionList=individualUserService.getMyQuestions(ID);
         if(questionList.size()==0)
-            return new AjaxJson(500,"数据库不存在有关信息",null,0L);
+            return new AjaxJson(200,"数据库不存在有关信息",null,0L);
         else
             return new AjaxJson(200,"查询成功",questionList,(long)questionList.size());
     }
@@ -149,7 +155,7 @@ public class IndividualUserController {
     {
         List<QuestionHelper> questionList=individualUserService.getMyFocusQuestion(ID);
         if(questionList.size()==0)
-            return new AjaxJson(500,"数据库不存在有关信息",null,0L);
+            return new AjaxJson(200,"数据库不存在有关信息",null,0L);
         else
             return new AjaxJson(200,"查询成功",questionList,(long)questionList.size());
     }
@@ -170,7 +176,7 @@ public class IndividualUserController {
             helpers.add(helper);
         }
         if(activities.size()==0)
-            return new AjaxJson(500,"数据库不存在该信息",null,0L);
+            return new AjaxJson(200,"数据库不存在该信息",null,0L);
         else
             return new AjaxJson(200,"查询成功",helpers,(long)helpers.size());
     }
@@ -179,14 +185,16 @@ public class IndividualUserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "wID",value = "举报者ID"),
             @ApiImplicitParam(name = "rID",value = "被举报者ID"),
-            @ApiImplicitParam(name = "reason",value = "举报原因")
+            @ApiImplicitParam(name = "reason",value = "举报原因"),
+            @ApiImplicitParam(name="qID",value="问题ID"),
+            @ApiImplicitParam(name = "aID",value = "回答ID")
     })
     @RequestMapping(value ="/reportUser",method = RequestMethod.POST)
-    public AjaxJson reportUser(String wID, String rID, String reason)
+    public AjaxJson reportUser(String wID, String rID, String reason,String qID,String aID)
     {
-        int r= individualUserService.reportUser(wID, rID, reason);
+        int r= individualUserService.reportUser(wID, rID, reason,qID,aID);
         if(r==0)
-            return new AjaxJson(500,"插入失败",null,0L);
+            return new AjaxJson(200,"插入失败",null,0L);
         else
             return new AjaxJson(200,"插入成功",r,1L);
     }
@@ -196,5 +204,16 @@ public class IndividualUserController {
     public int encode()
     {
         return individualUserMapper.encode();
+    }
+
+    @ApiOperation("修改密码")
+    @RequestMapping(value = "/editPassword", method = RequestMethod.POST)
+    public AjaxJson editPassword(String ID,String password)
+    {
+        int r= individualUserService.editPassword(ID, password);
+        if(r==0)
+            return new AjaxJson(200,"修改失败",null,0L);
+        else
+            return new AjaxJson(200,"插入成功",r,1L);
     }
 }

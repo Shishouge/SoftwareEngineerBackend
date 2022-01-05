@@ -36,7 +36,7 @@ public class AdminController {
     {
         Admin admin=adminService.login(ID, password);
         if(admin==null)
-            return new AjaxJson(500,"不存在该账号",null, 0L);
+            return new AjaxJson(200,"不存在该账号",null, 0L);
         else
             return new AjaxJson(200,"登录成功",admin, 1L);
     }
@@ -55,7 +55,7 @@ public class AdminController {
     {
         List<Report> reportList=adminService.getReports();
         if(reportList.size()==0)
-            return new AjaxJson(500,"数据库不存在有关信息",null,0L);
+            return new AjaxJson(200,"数据库不存在有关信息",null,0L);
         else
             return new AjaxJson(200,"查询成功",reportList,(long)reportList.size());
     }
@@ -70,7 +70,7 @@ public class AdminController {
     {
         int r=adminService.updateIUserStatus(ID, flag);
         if(r==0)
-            return new AjaxJson(500,"修改失败",r,0L);
+            return new AjaxJson(200,"修改失败",r,0L);
         else
             return new AjaxJson(200,"修改成功",r,1L);
     }
@@ -121,7 +121,7 @@ public class AdminController {
             @ApiImplicitParam(name = "title",value = "邮件主题"),
             @ApiImplicitParam(name = "content",value = "内容")
     })
-    @RequestMapping(name = "/sendEmailOFresult",method = RequestMethod.POST)
+    @RequestMapping(value = "/sendEmailOFresult",method = RequestMethod.POST)
     public AjaxJson sendEmailOFresult(String to,String title,String content)
     {
         sendEmailUtil.sendHtmlMail(to,title,content);

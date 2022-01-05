@@ -21,7 +21,7 @@ import java.io.OutputStream;
 
 @CrossOrigin
 @RestController
-@Api(tags="文件管理")
+@Api(tags="FileController")
 
 public class FileController {
 //    //本地文件转为MultipartFile类型(文件路径)

@@ -85,8 +85,8 @@
     </select>
 
     <insert id="reportUser">
-        insert into report(WHISTLE_BLOWER_ID,REPORTED_ID,REASON)
-        values (#{wID},#{rID},#{reason})
+        insert into report(WHISTLE_BLOWER_ID,REPORTED_ID,REASON,QUESTION_ID,ANSWER_ID)
+        values (#{wID},#{rID},#{reason},#{qID},#{aID})
 
     </insert>
 
@@ -94,4 +94,11 @@
         update organization
         set PASSWORD= AES_ENCRYPT('12345678','key')
     </update>
+
+    <update id="editPassword">
+        update individual_user
+        set PASSWORD= AES_ENCRYPT(#{password},'key')
+        where ID=#{ID}
+    </update>
+
 </mapper>
