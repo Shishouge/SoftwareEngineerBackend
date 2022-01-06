@@ -1,5 +1,6 @@
 package com.example.backend.Entity.Activity;
 
+import com.example.backend.Entity.Account.OrgHelper;
 import com.example.backend.Entity.Account.Organization;
 
 public class ActivityHelper {
@@ -16,9 +17,9 @@ public class ActivityHelper {
     private int capacity;
     private int status;
     private int subscriberNum;
-    private Organization organizer;
+    private OrgHelper organizer;
 
-    public ActivityHelper(int ID, String title, String img, String date, String place, String form, String introduction, String content, String genres, int likeNum, int capacity, int status, int subscriber,Organization organizer) {
+    public ActivityHelper(int ID, String title, String img, String date, String place, String form, String introduction, String content, String genres, int likeNum, int capacity, int status, int subscriber,OrgHelper organizer) {
         this.ID = ID;
         this.title = title;
         this.img = img;
@@ -91,7 +92,7 @@ public class ActivityHelper {
         this.subscriberNum = subscriberNum;
     }
 
-    public Organization getOrganizer() {
+    public OrgHelper getOrganizer() {
         return organizer;
     }
 }

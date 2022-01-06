@@ -3,6 +3,7 @@ package com.example.backend.Controller.Account;
 import cn.dev33.satoken.stp.StpUtil;
 import com.example.backend.DAO.Account.IndividualUserMapper;
 import com.example.backend.Entity.Account.IndividualUser;
+import com.example.backend.Entity.Account.OrgHelper;
 import com.example.backend.Entity.Account.Organization;
 import com.example.backend.Entity.Account.User;
 import com.example.backend.Entity.Activity.Activity;
@@ -172,7 +173,7 @@ public class IndividualUserController {
         for(int i=0;i<activities.size();i++)
         {
             Activity a=activities.get(i);
-            ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getActivityIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getOrganizerIntro(),a.getAvator(),a.getOrganizerStatus()));
+            ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getActivityIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new OrgHelper(a.getOrganizationID(),a.getOrganizerName(),a.getOrganizerIntro(),a.getAvator(),a.getOrganizerStatus()));
             helpers.add(helper);
         }
         if(activities.size()==0)

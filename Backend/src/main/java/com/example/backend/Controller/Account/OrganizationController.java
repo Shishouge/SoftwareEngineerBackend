@@ -3,6 +3,7 @@ package com.example.backend.Controller.Account;
 import com.example.backend.DAO.Activity.ActivityMapper;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.backend.Entity.Account.OrgHelper;
 import com.example.backend.Entity.Account.Organization;
 import com.example.backend.Entity.Activity.Activity;
 import com.example.backend.Entity.Activity.ActivityHelper;
@@ -56,9 +57,10 @@ public class OrganizationController {
             else
             {
                 Organization organization=organizationService.getByUserAndPassword(ID,password);
+                OrgHelper helper=new OrgHelper(organization.getID(),organization.getUSERNAME(),organization.getINTRODUCTION(),organization.getAVATOR(),organization.getSTATUS());
                 if(organization==null)
                     return new AjaxJson(200,"密码错误",null,0L);
-                return new AjaxJson(200,"登录成功",organization,1L);
+                return new AjaxJson(200,"登录成功",helper,1L);
             }
 
         }
@@ -103,7 +105,7 @@ public class OrganizationController {
         for(int i=0;i<activities.size();i++)
         {
             Activity a=activities.get(i);
-            ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getActivityIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new Organization(a.getOrganizationID(),a.getOrganizerName(),a.getOrganizerIntro(),a.getAvator(),a.getOrganizerStatus()));
+            ActivityHelper helper=new ActivityHelper(a.getID(),a.getTitle(),a.getImg(),a.getDate(),a.getPlace(),a.getForm(),a.getActivityIntroduction(),a.getContent(),a.getGenres(),a.getLikeNum(),a.getCapacity(),a.getStatus(),a.getSubscriberNum(),new OrgHelper(a.getOrganizationID(),a.getOrganizerName(),a.getOrganizerIntro(),a.getAvator(),a.getOrganizerStatus()));
             helpers.add(helper);
         }
         if(activities.size()==0)
