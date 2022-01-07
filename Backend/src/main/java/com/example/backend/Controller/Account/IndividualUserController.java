@@ -161,6 +161,23 @@ public class IndividualUserController {
             return new AjaxJson(200,"查询成功",questionList,(long)questionList.size());
     }
 
+    @ApiOperation("简易版邮箱验证")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email")
+    })
+    @RequestMapping(value ="/simpleVerify",method = RequestMethod.GET)
+    public AjaxJson simpleVerify(String email)
+    {
+        StringBuilder str = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 6; i++) {
+            str.append(random.nextInt(10));
+        }
+        String verifyCode=str.toString();
+        individualUserService.sendEmail(email,verifyCode);
+        return new AjaxJson(200,"发送成功",verifyCode,0L);
+    }
+
     @ApiOperation("获得某人报名的活动")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "email",value = "用户邮箱")

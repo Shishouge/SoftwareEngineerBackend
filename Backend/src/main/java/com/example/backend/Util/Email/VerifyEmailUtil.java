@@ -89,14 +89,16 @@ public class VerifyEmailUtil {
         String verifyCode = getEmailCode();
         sendCode2Email(email, "SimpleTest", verifyCode);
         HttpSession session = request.getSession(false);
+
         if (session == null) {
             //创建session，并拿到JSESSIONID
             session = request.getSession();
         }
         //设置session有效时间，默认是1800s
-        session.setMaxInactiveInterval(900);
+        session.setMaxInactiveInterval(300);
         //将验证码放入session中
         session.setAttribute("verifyCode", verifyCode);
+        System.out.println("session:"+session.getAttribute("verifyCode"));
         return new AjaxJson(200,"发送成功","success",0l);
     }
 
@@ -109,13 +111,14 @@ public class VerifyEmailUtil {
     public AjaxJson checkCode(String inputCode, HttpServletRequest request)
     {
         HttpSession session = request.getSession();
+        System.out.println("checkSession:"+session.getAttribute("verifyCode"));
         String verifyCode = (String) session.getAttribute("verifyCode");
         if (inputCode.equals(verifyCode)){
             //主动使session无效
             session.invalidate();
             return new AjaxJson(200,"验证码正确","success",0l);
         }
-        return new AjaxJson(500,"验证码错误","wrong",0l);
+        return new AjaxJson(200,"验证码错误","wrong",0l);
     }
 
 }

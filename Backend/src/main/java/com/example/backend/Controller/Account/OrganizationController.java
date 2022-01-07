@@ -109,7 +109,7 @@ public class OrganizationController {
             helpers.add(helper);
         }
         if(activities.size()==0)
-            return new AjaxJson(200,"数据库不存在该信息",null,0L);
+            return new AjaxJson(200,"数据库不存在该信息",helpers,0L);
         else
             return new AjaxJson(200,"查询成功",helpers,(long)helpers.size());
     }
