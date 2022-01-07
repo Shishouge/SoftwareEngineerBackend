@@ -163,10 +163,10 @@ public class IndividualUserController {
 
     @ApiOperation("简易版邮箱验证")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "email")
+            @ApiImplicitParam(name = "to")
     })
     @RequestMapping(value ="/simpleVerify",method = RequestMethod.GET)
-    public AjaxJson simpleVerify(String email)
+    public AjaxJson simpleVerify(String to)
     {
         StringBuilder str = new StringBuilder();
         Random random = new Random();
@@ -174,7 +174,7 @@ public class IndividualUserController {
             str.append(random.nextInt(10));
         }
         String verifyCode=str.toString();
-        individualUserService.sendEmail(email,verifyCode);
+        individualUserService.sendEmail(to,verifyCode);
         return new AjaxJson(200,"发送成功",verifyCode,0L);
     }
 
