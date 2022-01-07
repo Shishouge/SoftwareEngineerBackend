@@ -89,7 +89,7 @@ public class IndividualUserServiceImpl implements IndividualUserService{
             System.out.println("以发送");
         } catch (Exception e) {
             //logger.error("发送简单邮件时发生异常！", e);
-            System.out.println(e);
+            System.out.println("异常！"+e);
         }
     }
 
