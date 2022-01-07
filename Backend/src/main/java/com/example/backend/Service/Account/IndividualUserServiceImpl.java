@@ -82,14 +82,14 @@ public class IndividualUserServiceImpl implements IndividualUserService{
         message.setSubject("邮箱验证");
         message.setText("您的验证码为："+verifyCode);
         message.setTo(to);
-        message.setFrom("1724849413@qq.com");
+        message.setFrom("drt_test@163.com");
         try {
             mailSender.send(message);
             //logger.info("简单邮件已经发送。");
             System.out.println("以发送");
         } catch (Exception e) {
             //logger.error("发送简单邮件时发生异常！", e);
-            System.out.println(e);
+            System.out.println("异常！"+e);
         }
     }
 
