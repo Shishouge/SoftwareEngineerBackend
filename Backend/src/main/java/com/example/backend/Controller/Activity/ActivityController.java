@@ -167,17 +167,14 @@ public class ActivityController {
     @RequestMapping(value = "/signUpActivity",method = RequestMethod.POST)
     public AjaxJson signUpActivity(String individualUserID,int activityID,  String token)
     {
-        if(token.equals(StpUtil.getTokenValue()))
-        {
+
             int result=activityService.signUpActivity(individualUserID, activityID);
-            if(result==0)
-                return new AjaxJson(200,"插入失败",result,0L);
-            else
-                return new AjaxJson(200,"插入成功",result,1L);
-        }
-        else {
-            return new AjaxJson(200,"未登录！",null,0L);
-        }
+            if(result==0) {
+                return new AjaxJson(200, "插入失败", result, 0L);
+            }
+            else {
+                return new AjaxJson(200, "插入成功", result, 1L);
+            }
 
     }
 

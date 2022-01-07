@@ -38,6 +38,7 @@ public class IndividualUserController {
     IndividualUserMapper individualUserMapper;
     @Autowired
     VerifyEmailUtil verifyEmailUtil;
+
     @ApiOperation("登录接口，传入邮箱和密码，返回true/false")
     @ApiImplicitParams({
             @ApiImplicitParam(name="email",value = "用户邮箱",defaultValue = "11",required = true),
@@ -62,6 +63,7 @@ public class IndividualUserController {
             {
                 StpUtil.login(email);
                 result.setToken(StpUtil.getTokenValue());
+                System.out.println("login "+result.getToken());
                 return new AjaxJson(200,"登录成功",result,1L);
             }
 
