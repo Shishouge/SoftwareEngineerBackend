@@ -45,6 +45,14 @@ public class Activity {
         this.subscriberNum = subscriberNum;
     }
 
+    public Activity() {
+    }
+
+    public Activity(String date,String form) {
+        this.date = date;
+        this.form=form;
+    }
+
     public int getID() {
         return ID;
     }

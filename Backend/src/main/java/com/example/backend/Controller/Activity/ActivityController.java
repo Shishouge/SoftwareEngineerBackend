@@ -305,10 +305,21 @@ public class ActivityController {
     @RequestMapping(value = "/filterActivity",method = RequestMethod.GET)
     public AjaxJson filterActivity(String genres,String status,String isAbleToRe,String key)
     {
+//        System.out.println(genres.length());
+//        System.out.println(status.length());
+//        System.out.println(isAbleToRe.length());
+//        System.out.println(key.length());
         Integer num=null;
-        if(isAbleToRe!=null)
+        //0表示该参数未使用
+        if(genres.length()==0) genres="0";
+        if(status.length()==0) status="0";
+        if(key.length()==0) key="0";
+        if(isAbleToRe.length()!=0)
             num=1;
+        else
+            num=0;
         List<Activity> activities=activityService.filterActivity(genres,status,num,key);
+        System.out.println(activities.size());
         List<ActivityHelper> helpers=new ArrayList<>();
         for(int i=0;i<activities.size();i++)
         {

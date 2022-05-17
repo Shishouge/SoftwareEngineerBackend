@@ -20,6 +20,10 @@ public class ReviewActivity {
         this.reviewerAvator = avator;
     }
 
+    public ReviewActivity(String content) {
+        this.content = content;
+    }
+
     public String getReviewerID() {
         return reviewerID;
     }

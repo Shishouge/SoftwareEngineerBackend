@@ -26,11 +26,11 @@ public class AdminController {
     @Autowired
     SendEmailUtil sendEmailUtil;
 
-    @ApiOperation("登录")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "ID",value = "管理员ID"),
-            @ApiImplicitParam(name = "password",value = "密码")
-    })
+//    @ApiOperation("登录")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "ID",value = "管理员ID"),
+//            @ApiImplicitParam(name = "password",value = "密码")
+//    })
     @RequestMapping(value = "/AdminLogin",method = RequestMethod.POST)
     public AjaxJson AdminLogin(int ID, String password)
     {

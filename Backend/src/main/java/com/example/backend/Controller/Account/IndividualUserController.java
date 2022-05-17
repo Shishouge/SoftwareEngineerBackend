@@ -63,7 +63,7 @@ public class IndividualUserController {
             {
                 StpUtil.login(email);
                 result.setToken(StpUtil.getTokenValue());
-                System.out.println("login "+result.getToken());
+//                System.out.println("login "+result.getToken());
                 return new AjaxJson(200,"登录成功",result,1L);
             }
 
@@ -236,4 +236,6 @@ public class IndividualUserController {
         else
             return new AjaxJson(200,"插入成功",r,1L);
     }
+
+
 }

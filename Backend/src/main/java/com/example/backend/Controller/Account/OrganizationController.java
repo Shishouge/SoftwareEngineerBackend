@@ -57,9 +57,9 @@ public class OrganizationController {
             else
             {
                 Organization organization=organizationService.getByUserAndPassword(ID,password);
-                OrgHelper helper=new OrgHelper(organization.getID(),organization.getUSERNAME(),organization.getINTRODUCTION(),organization.getAVATOR(),organization.getSTATUS());
                 if(organization==null)
                     return new AjaxJson(200,"密码错误",null,0L);
+                OrgHelper helper=new OrgHelper(organization.getID(),organization.getUSERNAME(),organization.getINTRODUCTION(),organization.getAVATOR(),organization.getSTATUS());
                 return new AjaxJson(200,"登录成功",helper,1L);
             }
 

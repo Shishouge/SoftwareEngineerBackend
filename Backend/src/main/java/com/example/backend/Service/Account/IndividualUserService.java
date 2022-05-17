@@ -30,4 +30,5 @@ public interface IndividualUserService {
     public int reportUser(String wID,String rID,String reason,String qID,String aID);
     //修改密码
     public int editPassword(String ID,String password);
+
 }

@@ -125,4 +125,7 @@ public class IndividualUserServiceImpl implements IndividualUserService{
     {
         return individualUserMapper.editPassword(ID,password);
     }
+
+
+
 }

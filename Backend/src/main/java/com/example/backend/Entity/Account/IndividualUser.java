@@ -17,6 +17,9 @@ public class IndividualUser {
         this.STATUS = STATUS;
     }
 
+    public IndividualUser() {
+    }
+
     public String getINTRODUCTION() {
         return INTRODUCTION;
     }

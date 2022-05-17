@@ -11,6 +11,8 @@ import com.example.backend.Util.Recommend.RecommendHelper;
 import com.example.backend.Util.Response.AjaxJson;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 
@@ -35,10 +37,27 @@ public class ActivityServiceImpl implements ActivityService {
     ActivityMapper activityMapper;
     @Autowired
     IndividualUserMapper individualUserMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public List<Activity> getAllActivities() {
         return activityMapper.getAllActivities();
+//        String key="all_activity";
+//        ListOperations<String,Activity> operations = redisTemplate.opsForList();
+//        boolean hasKey = redisTemplate.hasKey(key);
+//        if(hasKey){
+//            List<Activity> activities = operations.range(key,0,-1);
+//            System.out.println("从缓存中获取数据");
+//            return activities;
+//        }else{
+//            List<Activity> activities=activityMapper.getAllActivities();
+//            System.out.println("查询数据库获取数据");
+//            System.out.println("------------写入缓存---------------------");
+//            //写入缓存
+//            operations.leftPushAll(key,activities);
+//            return activities;
+//        }
     }
 
     @Override
@@ -341,13 +360,17 @@ public class ActivityServiceImpl implements ActivityService {
     public List<Activity> filterActivity(String genres,String status,Integer isAbleToRe,String key)
     {
         List<Activity> oldActivities=activityMapper.filterActivity(genres,isAbleToRe,key);
+        if(status.equals(""))
+        {
+            return oldActivities;
+        }
         List<Activity> newActivities1=new ArrayList<>();
         List<Activity> newActivities2=new ArrayList<>();
         List<Activity> newActivities3=new ArrayList<>();
-        System.out.println(oldActivities.size());
-        if(status==null)
+        //System.out.println(oldActivities.size());
+        if(status.equals("0"))
         {
-            System.out.println("为空");
+            //System.out.println("为空");
             return oldActivities;
         }
 
@@ -358,7 +381,7 @@ public class ActivityServiceImpl implements ActivityService {
         String[] nowTime=t.split(" ");
         String[] nowDate=nowTime[0].split("-"); //dd mm yyyy
         String[] nowHour=nowTime[1].split(":");
-        System.out.println("个数"+oldActivities.size());
+        //System.out.println("个数"+oldActivities.size());
         for(Activity activity:oldActivities)
         {
             if(activity.getForm().contains("短期"))
@@ -468,6 +491,7 @@ public class ActivityServiceImpl implements ActivityService {
             return newActivities2;
         else
             return newActivities3;
+
     }
 
 

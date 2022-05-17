@@ -205,13 +205,13 @@
 <!--            <if test="true">-->
 <!--                AND -->
 <!--            </if>-->
-            <if test="genres != null">
+            <if test="genres != '0'.toString() ">
                 AND GENRES like CONCAT('%',#{genres},'%')
             </if>
-            <if test="isAbleToRe != null">
+            <if test="isAbleToRe != 0 ">
                 AND activity.STATUS = #{isAbleToRe}
             </if>
-            <if test="key!=null">
+            <if test="key!='0'.toString()">
                 AND
                 (TITLE like CONCAT('%',#{key},'%')
                 or CONTENT like CONCAT('%',#{key},'%'))
