@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="yike">
+    <output-path>$PROJECT_DIR$/out/artifacts/yike</output-path>
+    <root id="archive" name="yike.war">
+      <element id="dir-copy" path="$PROJECT_DIR$/Backend" />
+    </root>
+  </artifact>
+</component>

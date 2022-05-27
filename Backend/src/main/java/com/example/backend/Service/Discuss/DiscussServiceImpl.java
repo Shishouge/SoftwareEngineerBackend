@@ -1,7 +1,10 @@
 package com.example.backend.Service.Discuss;
 
+import com.example.backend.DAO.Account.IndividualUserMapper;
 import com.example.backend.DAO.Discuss.DiscussMapper;
+import com.example.backend.Entity.Account.IndividualUser;
 import com.example.backend.Entity.Discuss.*;
+import com.example.backend.Service.Account.IndividualUserService;
 import com.example.backend.Util.Response.AjaxJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,10 @@ public class DiscussServiceImpl implements DiscussService {
 
     @Autowired
     private DiscussMapper discussMapper;
+
+    @Autowired
+    private IndividualUserMapper individualUserMapper;
+
 
     @Override
     public AjaxJson getQuestionWithFollowNumAndLikeNum()
@@ -64,9 +71,17 @@ public class DiscussServiceImpl implements DiscussService {
     @Override
     public  AjaxJson takeAntiFocusQuestion(String userId, int questionId)
     {
+        if (userId == null) {
+            return new AjaxJson(500, "输入为空", -1);
+        }
         List<QuestionWithFollowNumAndLikeNum> list = discussMapper.checkFocusQuestion(userId,questionId);
         if(list.isEmpty())
         {
+            IndividualUser individualUser=individualUserMapper.getByEmail(userId);
+            Question question=discussMapper.getQuestionById(questionId);
+            if (question == null || individualUser == null) {
+                return new AjaxJson(500, "用户或问题不存在", -1);
+            }
             //没有找到，需要增加关注该问题
             if(discussMapper.addFocusQuestion(userId,questionId)==0)
             {
@@ -107,6 +122,9 @@ public class DiscussServiceImpl implements DiscussService {
     @Override
     public AjaxJson addQuestion(String userId, String title, String content)
     {
+        if (title == null || content == null || userId == null) {
+            return new AjaxJson(500,"输入内容不能为空",-1);
+        }
         if(discussMapper.addQuestion(userId,title,content)==0)
         {
             throw  new IllegalStateException("未插入成功");

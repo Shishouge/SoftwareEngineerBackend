@@ -20,6 +20,64 @@ public class FtpUtil {
     //附件路径
     public static final String FTP_BASE = "/home/user-file/files";
 
+    public static String testuploadFile(String FTP_ADDPATH, MultipartFile multipartFile) throws IOException {
+
+        String FTP_BASEPATH = "/home/user-file/files";
+
+        String finalName = multipartFile.getOriginalFilename();
+
+        boolean success = false;
+        FTPClient ftp = new FTPClient();
+        try {
+            int reply;
+            ftp.connect(FTP_ADDREES, FTP_PORT);//链接FTP服务器
+            ftp.login(FTP_USERNAME, FTP_PASSWORD);//登陆
+            reply = ftp.getReplyCode();
+            if (!FTPReply.isPositiveCompletion(reply)) {
+                ftp.disconnect();//没连上断开
+                return null;
+            }
+            if (!ftp.changeWorkingDirectory(FTP_BASEPATH + FTP_ADDPATH)) {
+                if (FTP_ADDPATH == null) FTP_ADDPATH = "";
+                String[] dirs = FTP_ADDPATH.split("/");
+                for (String dir : dirs) {
+                    if (null == dir || "".equals(dir))
+                        continue;//跳出本地循环，进入下一次循环
+                    FTP_BASEPATH += "/" + dir;
+                    if (!ftp.changeWorkingDirectory(FTP_BASEPATH)) {
+                        if (!ftp.makeDirectory(FTP_BASEPATH)) {
+                            return "make path wrong";
+                        } else {
+                            ftp.changeWorkingDirectory(FTP_BASEPATH);
+                        }
+                    }
+                }
+            } else {
+                String[] dirs = FTP_ADDPATH.split("/");
+                for (String dir : dirs) {
+                    if (null == dir || "".equals(dir))
+                        continue;
+                    FTP_BASEPATH += "/" + dir;
+
+                }
+            }
+            ftp.logout();//注销
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (ftp.isConnected()) {
+                try {
+                    ftp.disconnect();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+        }
+        FTP_BASEPATH += '/' + finalName;
+        return FTP_BASEPATH;
+    }
+
     public static String uploadFile(String FTP_ADDPATH, MultipartFile multipartFile) throws IOException {
 
 
@@ -74,7 +132,7 @@ public class FtpUtil {
             //ftp.changeWorkingDirectory(FTP_BASEPATH);//将路径转到文件夹
             ftp.enterLocalPassiveMode();
             ftp.storeFile(finalName, inputStream);
-            inputStream.close();//关闭
+            inputStream.close();//关闭//test
             ftp.logout();//注销
         } catch (IOException e) {
             e.printStackTrace();
