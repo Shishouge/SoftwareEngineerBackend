@@ -38,6 +38,7 @@ def chinese_jieba(text):
 
 if __name__ == "__main__":
     id=sys.argv[1]
+    #id='1'
     filename= os.path.dirname(__file__) +'/testdata/review.txt'
     f = open(filename,encoding='utf8')
     line = f.readline()  
@@ -86,7 +87,7 @@ if __name__ == "__main__":
         x = data.get_x()
         plt.text(x + 0.35, y, str(y), va='bottom')  # 0.15为偏移值，可以自己调整，正好在柱形图顶部正中
     # 图片的显示及存储
-    filename= os.path.dirname(__file__) +"/testdata/"+id+".png"
+    filename= os.path.dirname(__file__) +"/testdata/"+str(id)+".png"
     plt.savefig(filename)
     #plt.show()
 
@@ -99,6 +100,6 @@ if __name__ == "__main__":
                             height=300, max_words=50,min_font_size=8).generate(text)
         image=wordcloud.to_image()
         #image.show()
-        filename= os.path.dirname(__file__) +"/testdata/"+id+"_cloud.png"
+        filename= os.path.dirname(__file__) +"/testdata/"+str(id)+"_cloud.png"
         image.save(filename)
     file.close
