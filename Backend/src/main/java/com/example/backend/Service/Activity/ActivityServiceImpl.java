@@ -146,6 +146,49 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    public void runEmotionAnalysis(int ID){
+        String[] cmds = new String[]{"python", "src//python//train.py",String.valueOf(ID)};
+        Process proc;
+        String outPutName="src//python//testdata//"+String.valueOf(ID)+".png";
+        String cloudName="src//python//testdata//"+String.valueOf(ID)+"_cloud.png";
+        try {
+            proc = Runtime.getRuntime().exec(cmds);// 执行py文件
+            //用输入输出流来截取结果
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                System.out.println(line);
+            }
+            in.close();
+            proc.waitFor();
+
+            File pdfFile = new File(outPutName);
+//            pdfFile.createNewFile();
+            File cloud = new File(cloudName);
+//            cloud.createNewFile();
+            try{
+                FileInputStream fileInputStream = new FileInputStream(pdfFile);
+                MultipartFile multipartFile = new MockMultipartFile(pdfFile.getName(), pdfFile.getName(),
+                        ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream);
+
+                FileInputStream fileInputStream1 = new FileInputStream(cloud);
+                MultipartFile multipartFile1 = new MockMultipartFile(cloud.getName(), cloud.getName(),
+                        ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream1);
+
+                FileController fileController=new FileController();
+                AjaxJson path=fileController.addFile("/analysis/",multipartFile);
+                AjaxJson path1=fileController.addFile("/analysis/",multipartFile1);
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public EmotionAnalysis getEmotionalAnalysis(int ID)
     {
         List<ReviewActivity> reviewActivities1=activityMapper.getReviewsByActivity(ID);
@@ -171,43 +214,7 @@ public class ActivityServiceImpl implements ActivityService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String[] cmds = new String[]{"python", "src//python//train.py",String.valueOf(ID)};
-            Process proc;
-            String outPutName="src//python//testdata//"+String.valueOf(ID)+".png";
-            String cloudName="src//python//testdata//"+String.valueOf(ID)+"_cloud.png";
-            try {
-                proc = Runtime.getRuntime().exec(cmds);// 执行py文件
-                //用输入输出流来截取结果
-                BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-                String line = null;
-                while ((line = in.readLine()) != null) {
-                    System.out.println(line);
-                }
-                in.close();
-                proc.waitFor();
-
-                File pdfFile = new File(outPutName);
-                File cloud = new File(cloudName);
-                try{
-                    FileInputStream fileInputStream = new FileInputStream(pdfFile);
-                    MultipartFile multipartFile = new MockMultipartFile(pdfFile.getName(), pdfFile.getName(),
-                            ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream);
-
-                    FileInputStream fileInputStream1 = new FileInputStream(cloud);
-                    MultipartFile multipartFile1 = new MockMultipartFile(cloud.getName(), cloud.getName(),
-                            ContentType.APPLICATION_OCTET_STREAM.toString(), fileInputStream1);
-
-                    FileController fileController=new FileController();
-                    AjaxJson path=fileController.addFile("/analysis/",multipartFile);
-                    AjaxJson path1=fileController.addFile("/analysis/",multipartFile1);
-                } catch (java.io.IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            runEmotionAnalysis(ID);
             activityMapper.addAnalysis("http://101.132.138.14/files/analysis/"+String.valueOf(ID)+".png",ID);
             activityMapper.addCloud("http://101.132.138.14/files/analysis/"+String.valueOf(ID)+"_cloud.png",ID);
             EmotionAnalysis emotionAnalysis=new EmotionAnalysis("http://101.132.138.14/files/analysis/"+String.valueOf(ID)+".png","http://101.132.138.14/files/analysis/"+String.valueOf(ID)+"_cloud.png");

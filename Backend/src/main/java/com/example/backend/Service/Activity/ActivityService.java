@@ -34,6 +34,8 @@ public interface ActivityService {
     public int cancleSignUp(String iID,int aID);
     //得到活动评价的情感分析
     public EmotionAnalysis getEmotionalAnalysis(int ID);
+    //调用情感分析
+    public void runEmotionAnalysis(int ID);
     //删除活动
     public int deleteActivity(int ID);
     //得到某活动的报名者信息

@@ -18,6 +18,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +43,13 @@ class ActivityServiceImplTest {
     @Before
     public void initMock() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void runEmotionAnalysis() {
+        activityService.runEmotionAnalysis(0);
+        activityService.runEmotionAnalysis(1);
+        activityService.runEmotionAnalysis(11);
     }
 
     //运行前要把Python处理部分注释掉 不要轻易运行
