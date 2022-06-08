@@ -92,7 +92,7 @@ class IndividualUserControllerTest {
             AjaxJson ajaxJson=individualUserController.login(emails.get(i),passwords.get(i));
             //断言查看是否正确
             Assert.assertEquals(expectedResults.get(i), ajaxJson.getMsg());
-            //System.out.println(ajaxJson);
+            System.out.println(ajaxJson);
         }
     }
 
@@ -126,7 +126,7 @@ class IndividualUserControllerTest {
             Mockito.when(individualUserMapper.insertUser(Mockito.eq(emails.get(i)),Mockito.eq(passwords.get(i)),Mockito.eq(names.get(i)),Mockito.eq(1))).thenReturn(x);
             AjaxJson ajaxJson=individualUserController.signUp(emails.get(i),names.get(i), passwords.get(i));
             Assert.assertEquals(expectedResults.get(i), ajaxJson.getMsg());
-            //System.out.println(ajaxJson);
+            System.out.println(ajaxJson);
         }
 
 

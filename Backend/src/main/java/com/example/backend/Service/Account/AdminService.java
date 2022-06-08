@@ -14,4 +14,5 @@ public interface AdminService {
     public List<Organization> getApplications();
     public int updateOUserStatus(int ID,int flag);
     public String getEmailByOID(int ID);
+    public int deleteReport(String wID,String rID);
 }

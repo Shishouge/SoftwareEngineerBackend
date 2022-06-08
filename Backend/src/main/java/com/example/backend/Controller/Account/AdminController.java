@@ -95,6 +95,7 @@ public class AdminController {
     public AjaxJson updateOUserStatus(int ID,int flag)
     {
         int r=adminService.updateOUserStatus(ID, flag);
+
         if(r==0)
             return new AjaxJson(200,"修改失败",r,0L);
         else
@@ -126,6 +127,19 @@ public class AdminController {
     {
         sendEmailUtil.sendHtmlMail(to,title,content);
         return new AjaxJson(200,"发送成功",null,1L);
+    }
+
+    @ApiOperation("删除举报")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="wID",value = "举报者ID"),
+            @ApiImplicitParam(name="rID",value="被举报者ID")
+
+    })
+    @RequestMapping(value = "/deleteReport",method = RequestMethod.POST)
+    public AjaxJson deleteReport(String wID,String rID)
+    {
+        int x=adminService.deleteReport(wID, rID);
+        return new AjaxJson(200,"删除成功",x,1L);
     }
 
 

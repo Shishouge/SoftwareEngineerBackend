@@ -23,4 +23,6 @@ public interface AdminMapper {
     public int updateOUserStatus(int ID,int flag);
     //根据组织用户ID获取其邮箱
     public String getEmailByOID(int ID);
+    //删除举报信息
+    public int deleteReport(String wID,String rID);
 }

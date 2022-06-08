@@ -39,4 +39,10 @@
         where ID=#{ID}
     </select>
 
+    <delete id="deleteReport">
+        delete from report
+        where WHISTLE_BLOWER_ID=#{wID}
+          and REPORTED_ID=#{rID};
+    </delete>
+
 </mapper>

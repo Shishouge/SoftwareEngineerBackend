@@ -91,8 +91,8 @@
     </insert>
 
     <update id="encode">
-        update individual_user
-        set PASSWORD=   AES_ENCRYPT('12345678','key')
+        update organization
+        set PASSWORD=   AES_ENCRYPT('12345678ABC','key')
     </update>
 
     <update id="editPassword">

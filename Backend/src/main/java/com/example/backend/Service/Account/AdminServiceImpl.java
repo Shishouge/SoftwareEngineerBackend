@@ -54,4 +54,10 @@ public class AdminServiceImpl implements AdminService{
         return result;
     }
 
+    @Override
+    public int deleteReport(String wID,String rID)
+    {
+        return adminMapper.deleteReport(wID,rID);
+    }
+
 }

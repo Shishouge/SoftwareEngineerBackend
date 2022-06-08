@@ -76,19 +76,27 @@ class ActivityServiceImplTest {
         for(int i=0;i<IDs.size();i++)
         {
             Mockito.when(activityMapper.getReviewsByActivity(Mockito.eq(IDs.get(i)))).thenReturn(reviewActivitiesList.get(i));
-            Mockito.when(activityMapper.getIMGofActivity(Mockito.eq(IDs.get(i)))).thenReturn(new EmotionAnalysis("我是缓存","我是缓存"));
+            Mockito.when(activityMapper.getIMGofActivity(Mockito.eq(IDs.get(i)))).thenReturn(new EmotionAnalysis("来自数据库的缓存","来自数据库的缓存"));
             EmotionAnalysis emotionAnalysis=activityService.getEmotionalAnalysis(IDs.get(i));
-            System.out.println(emotionAnalysis.getEMO_ANALYSIS()+' '+emotionAnalysis.getCloud());
+            if(emotionAnalysis.getEMO_ANALYSIS().equals(""))
+            {
+                System.out.println("评论个数未达到情感分析要求！");
+            }
+            else
+            {
+                System.out.println("统计结果："+emotionAnalysis.getEMO_ANALYSIS()+" 词云图结果："+emotionAnalysis.getCloud());
+            }
+
         }
     }
 
     @Test
     void filterActivity() {
         List<Activity> activities=new ArrayList<>();
-        activities.add(new Activity("2022-5-18 09:00-11:00","短期"));     //短期未开始
+        activities.add(new Activity("2022-5-31 09:00-11:00","短期"));     //短期未开始
         activities.add(new Activity("2021-4-27 09:00-10:00","短期"));     //短期已结束
-        activities.add(new Activity("2022-05-15 至 2022-05-20","长期"));  //长期进行中
-        activities.add(new Activity("2022-05-19 至 2022-05-20","长期"));  //长期未开始
+        activities.add(new Activity("2022-05-15 至 2022-05-31","长期"));  //长期进行中
+        activities.add(new Activity("2022-06-01 至 2022-06-20","长期"));  //长期未开始
         activities.add(new Activity("2021-04-11 至 2021-04-13","长期"));  //长期已结束
         Mockito.when(activityMapper.filterActivity(Mockito.anyString(),Mockito.anyInt(),Mockito.anyString())).thenReturn(activities);
 

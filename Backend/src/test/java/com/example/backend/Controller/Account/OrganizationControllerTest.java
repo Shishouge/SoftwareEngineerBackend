@@ -97,7 +97,7 @@ class OrganizationControllerTest {
 
             AjaxJson ajaxJson=organizationController.login(IDs.get(i),passwords.get(i));
             Assert.assertEquals(expectedResults.get(i), ajaxJson.getMsg());
-            //System.out.println(ajaxJson);
+            System.out.println(ajaxJson);
         }
 
     }
