@@ -47,6 +47,10 @@ public class IndividualUserController {
     @RequestMapping(value="/login",method = {RequestMethod.GET})
     public AjaxJson login(String email, String password)
     {
+        if(email.length()==0 || password.length()==0)
+        {
+            return new AjaxJson(200,"输入不能为空！",null,1L);
+        }
         IndividualUser individualUser=individualUserService.getByEmail(email);
         if(individualUser==null)
             return new AjaxJson(200,"该用户尚未注册",null,0L);
@@ -80,6 +84,10 @@ public class IndividualUserController {
     @RequestMapping(value="/signUp",method = {RequestMethod.POST})
     public AjaxJson signUp(String email,String name,String password)
     {
+        if(email.length()==0||name.length()==0||password.length()==0)
+        {
+            return new AjaxJson(200,"输入信息不能为空",null,0L);
+        }
         IndividualUser check=individualUserService.getByEmail(email);
         int insert=-2;
         if(check==null)

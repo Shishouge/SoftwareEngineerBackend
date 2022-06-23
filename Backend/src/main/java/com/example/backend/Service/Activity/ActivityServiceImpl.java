@@ -42,6 +42,11 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public List<Activity> getAllActivities() {
+        List<Activity> activities=activityMapper.getAllActivities();
+        for(int i=0;i<activities.size();i++)
+        {
+            System.out.println(activities.get(i).getOrganizerName());
+        }
         return activityMapper.getAllActivities();
 //        String key="all_activity";
 //        ListOperations<String,Activity> operations = redisTemplate.opsForList();

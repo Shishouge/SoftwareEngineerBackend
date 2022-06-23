@@ -1,8 +1,8 @@
 package com.example.backend.Controller.Account;
 
-import com.example.backend.DAO.Activity.ActivityMapper;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+//import com.example.backend.DAO.Activity.ActivityMapper;
+//import com.alibaba.fastjson.JSON;
+//import com.alibaba.fastjson.JSONObject;
 import com.example.backend.Entity.Account.OrgHelper;
 import com.example.backend.Entity.Account.Organization;
 import com.example.backend.Entity.Activity.Activity;
@@ -10,19 +10,19 @@ import com.example.backend.Entity.Activity.ActivityHelper;
 import com.example.backend.Service.Account.OrganizationService;
 import com.example.backend.Service.Activity.ActivityService;
 import com.example.backend.Util.Response.AjaxJson;
-import com.example.backend.Util.Response.ResponseCode;
-import com.example.backend.Util.Response.ResponseResult;
+//import com.example.backend.Util.Response.ResponseCode;
+//import com.example.backend.Util.Response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.python.modules._json._json;
+//import org.python.modules._json._json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.spring.web.json.Json;
+//import springfox.documentation.spring.web.json.Json;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin
@@ -41,6 +41,10 @@ public class OrganizationController {
     @RequestMapping(value = "/orglogin",method = RequestMethod.GET)
     public AjaxJson login(int ID, String password)
     {
+        if( password==null||password.length()==0)
+        {
+            return new AjaxJson(200,"输入信息不能为空",null,0L);
+        }
         Organization check=organizationService.getOrgByID(ID);
         if(check==null)
             return new AjaxJson(200,"该组织还未注册",null,0L);

@@ -2,10 +2,10 @@ package com.example.backend.Controller.Account;
 
 import com.example.backend.DAO.Account.IndividualUserMapper;
 import com.example.backend.Entity.Account.IndividualUser;
-import com.example.backend.Service.Account.IndividualUserService;
+//import com.example.backend.Service.Account.IndividualUserService;
 import com.example.backend.Service.Account.IndividualUserServiceImpl;
 import com.example.backend.Util.Response.AjaxJson;
-import jnr.ffi.annotations.In;
+//import jnr.ffi.annotations.In;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -17,14 +17,14 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.util.ReflectionTestUtils;
+//import org.springframework.test.context.junit4.SpringRunner;
+//import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
+//import static org.junit.jupiter.api.Assertions.*;
+//import static org.mockito.ArgumentMatchers.anyString;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
@@ -54,14 +54,14 @@ class IndividualUserControllerTest {
         users.add(new IndividualUser("WHL@qq.com","小王","测试用户2","http://101.132.138.14/files/user/66.jpg",0));
         users.add(null);
         users.add(new IndividualUser("SSG@qq.com","小时","测试用户4","http://101.132.138.14/files/user/66.jpg",1));
-
+        users.add(null);
 
         List<IndividualUser> loginusers=new ArrayList<>();
         loginusers.add(null);
         loginusers.add(new IndividualUser("WHL@qq.com","小王","测试用户2","http://101.132.138.14/files/user/66.jpg",0));
         loginusers.add(null);
         loginusers.add(new IndividualUser("SSG@qq.com","小时","测试用户4","http://101.132.138.14/files/user/66.jpg",1));
-
+        loginusers.add(null);
 
         //参数mock
         List<String> emails=new ArrayList<>();
@@ -69,18 +69,21 @@ class IndividualUserControllerTest {
         emails.add("WHL@qq.com");
         emails.add("ABC@qq.com");
         emails.add("SSG@qq.com");
+        emails.add("");
 
         List<String> passwords=new ArrayList<>();
         passwords.add("12345678A");
         passwords.add("12345678");
         passwords.add("12345678");
         passwords.add("12345678");
+        passwords.add("");
 
         List<String> expectedResults=new ArrayList<>();
         expectedResults.add("密码错误");
         expectedResults.add("该用户目前处于封禁状态");
         expectedResults.add("该用户尚未注册");
         expectedResults.add("登录成功");
+        expectedResults.add("输入不能为空！");
 
         for(int i=0;i<users.size();i++)
         {
@@ -102,21 +105,25 @@ class IndividualUserControllerTest {
         List<String> emails=new ArrayList<>();
         emails.add("DRT@qq.com");
         emails.add("2872521111@qq.com");
+        emails.add("");
         List<String> passwords=new ArrayList<>();
         passwords.add("12345678As");
         passwords.add("987654wq");
+        passwords.add("");
         List<String> names=new ArrayList<>();
         names.add("小蓝");
         names.add("小红");
-
+        names.add("");
         //stub
         List<IndividualUser> users=new ArrayList<>();
         users.add(new IndividualUser("DRT@qq.com","小邓","测试用户1","http://101.132.138.14/files/user/66.jpg",1));
+        users.add(null);
         users.add(null);
         int x=1;
         List<String> expectedResults=new ArrayList<>();
         expectedResults.add("该账号已被注册");
         expectedResults.add("注册成功");
+        expectedResults.add("输入信息不能为空");
         for(int i=0;i< emails.size();i++)
         {
             Mockito.when(individualUserMapper.getByEmail(Mockito.eq(emails.get(i)))).thenReturn(users.get(i));

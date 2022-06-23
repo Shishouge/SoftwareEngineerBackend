@@ -60,6 +60,7 @@ class ActivityServiceImplTest {
         IDs.add(1);
         IDs.add(2);
         IDs.add(35);
+        IDs.add(40);
         //接口1 构造评论使得个数达标
         List<List<ReviewActivity>> reviewActivitiesList=new ArrayList<>();
         for(int i=0;i<3;i++)
@@ -71,7 +72,8 @@ class ActivityServiceImplTest {
             }
             reviewActivitiesList.add(reviewActivities);
         }
-
+        List<ReviewActivity> reviewActivities=new ArrayList<>();
+        reviewActivitiesList.add(reviewActivities);
 
         for(int i=0;i<IDs.size();i++)
         {
@@ -93,10 +95,10 @@ class ActivityServiceImplTest {
     @Test
     void filterActivity() {
         List<Activity> activities=new ArrayList<>();
-        activities.add(new Activity("2022-5-31 09:00-11:00","短期"));     //短期未开始
+        activities.add(new Activity("2022-6-30 09:00-11:00","短期"));     //短期未开始
         activities.add(new Activity("2021-4-27 09:00-10:00","短期"));     //短期已结束
-        activities.add(new Activity("2022-05-15 至 2022-05-31","长期"));  //长期进行中
-        activities.add(new Activity("2022-06-01 至 2022-06-20","长期"));  //长期未开始
+        activities.add(new Activity("2022-06-15 至 2022-06-30","长期"));  //长期进行中
+        activities.add(new Activity("2022-06-25 至 2022-06-30","长期"));  //长期未开始
         activities.add(new Activity("2021-04-11 至 2021-04-13","长期"));  //长期已结束
         Mockito.when(activityMapper.filterActivity(Mockito.anyString(),Mockito.anyInt(),Mockito.anyString())).thenReturn(activities);
 

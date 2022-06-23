@@ -16,10 +16,10 @@
         <id property="organizationID" column="oID"/>
         <result property="title" column="TITLE"/>
         <result property="img" column="IMG"/>
-        <result property="organizerName" column="organization.USERNAME" />
+        <result property="organizerName" column="USERNAME" />
         <result property="organizerIntro" column="oIN" />
         <result property="organizerStatus" column="organization.STATUS" />
-        <result property="avator" column="organization.AVATOR" />
+        <result property="avator" column="AVATOR" />
         <result property="date" column="DATE" />
         <result property="place" column="PLACE" />
         <result property="form" column="FORM" />
@@ -77,7 +77,7 @@
     </select>
 
     <select id="getMySignUpActivities" resultMap="mapActivity">
-        select activity.ID as aID,TITLE,IMG,organization.ID as oID,organization.USERNAME,organization.INTRODUCTION as oIN,organization.AVATOR,organization.STATUS,DATE,PLACE,FORM,activity.INTRODUCTION as aIN,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,activity.SUBSCRIBER_NUM
+        select activity.ID as aID,TITLE,IMG,organization.ID as oID,organization.USERNAME as USERNAME,organization.INTRODUCTION as oIN, AVATOR,organization.STATUS,DATE,PLACE,FORM,activity.INTRODUCTION as aIN,CONTENT,GENRES,LIKENUM,CAPACITY,activity.STATUS,activity.SUBSCRIBER_NUM
         from sign_up_form,activity,organization
         where sign_up_form.INDIVIDUAL_USER_ID=#{ID}
         and sign_up_form.ACTIVITY_ID=activity.ID

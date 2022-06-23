@@ -45,6 +45,10 @@ public class ActivityController {
     public AjaxJson getAllActivities()
     {
         List<Activity> activities=activityService.getAllActivities();
+//        for(int i=0;i<activities.size();i++)
+//        {
+//            System.out.println(activities.get(i).getOrganizerName());
+//        }
         List<ActivityHelper> helpers=new ArrayList<>();
         for(int i=0;i<activities.size();i++)
         {

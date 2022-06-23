@@ -37,8 +37,8 @@ def chinese_jieba(text):
     return  space_wordlist
 
 if __name__ == "__main__":
-    id=sys.argv[1]
-    #id='1'
+    #id=sys.argv[1]
+    id='1'
     filename= os.path.dirname(__file__) +'/testdata/review.txt'
     f = open(filename,encoding='utf8')
     line = f.readline()  
